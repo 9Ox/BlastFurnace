@@ -26,11 +26,13 @@ public class JobLoop {
     
     /**
      * Automatically called in the loop() method. Will wait indefinitely until the script is set to be ready.
+     * This method will also load any jobs that were added in the JobLoader class.
      */
     private static void waitUntilReady() {
         while (!isReady()) {
             General.sleep(10);
         }
+        JobLoader.loadJobs();
     }
     
     /**
