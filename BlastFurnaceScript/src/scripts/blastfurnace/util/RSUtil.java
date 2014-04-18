@@ -30,7 +30,7 @@ public class RSUtil {
      * @return returns true if it successfully clicks the npc.
      */
     public static boolean clickRSNPC(final String option, final RSNPC... entities) {
-        if (Clicking.click(entities)) {
+        if (Clicking.click(option, entities)) {
             final RSTile destination = Game.getDestination();
             return destination != null && Player.getPosition().distanceTo(destination) <= 1;
         }
