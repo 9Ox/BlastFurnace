@@ -18,7 +18,7 @@ import scripts.blastfurnace.util.RSUtil;
  * @author Starfox, erickho123
  */ 
 public class Pumper extends Job {
-	
+
 	private boolean startPumping = false;
 	private final int PUMPING_ANIMATION = 2432;
 	private final int TEMPEATURE_SETTING = -1;
@@ -39,8 +39,10 @@ public class Pumper extends Job {
 			operatePump();
 		}
 	}
-	
-	
+
+	/**
+	 * Operates the pump when needed, when shout caller calls "Stop", it will run to a safe tile
+	 */
 	private void operatePump() {
 		RSObject[] pumps = Objects.findNearest(40, "Pumps");
 		if(pumps.length > 0) {
@@ -49,7 +51,7 @@ public class Pumper extends Job {
 				if(pump.isOnScreen()) {
 					if(RSUtil.clickRSObject("Pump", pump)) {
 						if(Timing.waitCondition(new Condition() {
-							
+
 							@Override
 							public boolean active() {
 								// TODO Auto-generated method stub
@@ -57,7 +59,7 @@ public class Pumper extends Job {
 							}
 						}, 5000)) {
 							Timing.waitCondition(new Condition() {
-								
+
 								@Override
 								public boolean active() {
 									// TODO Auto-generated method stub
