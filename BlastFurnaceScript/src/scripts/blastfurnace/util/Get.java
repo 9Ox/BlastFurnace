@@ -15,7 +15,7 @@ public class Get {
      * @param ids The id(s) to check for.
      * @return The nearest RSObject found; null if none were found.
      */
-    public static RSObject get(final int dist, final int... ids) {
+    public static RSObject getObject(final int dist, final int... ids) {
         RSObject[] objs = Objects.findNearest(dist, ids);
         return objs.length > 0 ? objs[0] : null;
     }
@@ -25,7 +25,7 @@ public class Get {
      * @param ids The id(s) to check for.
      * @return The nearest RSNPC found; null if none were found.
      */
-    public static RSNPC get(final int... ids) {
+    public static RSNPC getNpc(final int... ids) {
         RSNPC[] npcs = NPCs.find(ids);
         return npcs.length > 0 ? npcs[0] : null;
     }
