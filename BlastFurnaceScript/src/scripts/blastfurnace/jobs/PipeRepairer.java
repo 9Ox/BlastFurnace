@@ -27,10 +27,9 @@ public class PipeRepairer extends Job {
 
     @Override
     public void doJob() {
-        RSObject pipe;
         RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
         if (pipes.length > 0) {
-            pipe = pipes[0];
+           RSObject pipe = pipes[0];
             if (pipe != null) {
                 if (pipe.isOnScreen() && Player.getAnimation() == -1) {
                     if (RSUtil.clickRSObject(REPAIR_OPTION, pipe)) {
