@@ -16,117 +16,117 @@ import scripts.blastfurnace.util.Walking;
 
 /**
  * @author Starfox, erickho123
- */ 
+ */
 public class Fueler extends Job {
 
-	private final int SPADE_ID = 952;
-	private final int COKE_ID = 6448;
-	private final int HOT_STOVE = 9087;
-	@Override
-	public boolean shouldDo() {
-		// TODO Auto-generated method stub
-		return Objects.findNearest(40, HOT_STOVE).length == 0;
-	}
+    private final int SPADE_ID = 952;
+    private final int COKE_ID = 6448;
+    private final int HOT_STOVE = 9087;
 
-	@Override
-	public void doJob() {
-		if(Inventory.getCount(COKE_ID) > 0) {
-			refuelStove();
-		} else if(Inventory.getCount(SPADE_ID) > 0) {
-			collectCoke();
-		} else {
-			pickupSpade();
-		}
-		// TODO Auto-generated method stub
+    @Override
+    public boolean shouldDo() {
+        return Objects.findNearest(40, HOT_STOVE).length == 0;
+    }
 
-	}
+    @Override
+    public void doJob() {
+        if (Inventory.getCount(COKE_ID) > 0) {
+            refuelStove();
+        } else if (Inventory.getCount(SPADE_ID) > 0) {
+            collectCoke();
+        } else {
+            pickupSpade();
+        }
 
-	/**
-	 * Picks up the spade, if it's not on screen it will walk to it.
-	 */
-	private void pickupSpade() {
-		RSGroundItem[] spades = GroundItems.findNearest(SPADE_ID);
-		if(spades.length > 0) {
-			RSGroundItem spade = spades[0];
-			if(spade != null) {
-				if(spade.isOnScreen()) {
-					if(RSUtil.clickRSGroundItem("Take ", spade))
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								// TODO Auto-generated method stub
-								return Inventory.getCount(SPADE_ID) > 0;
-							}
-						}, 2000);
+    }
 
-				} else {
-					if (spade.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
-						Camera.turnToTile(spade);
-					} else {
-						Walking.walkTo(spade.getPosition());
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Picks up the spade, if it's not on screen it will walk to it.
+     */
+    private void pickupSpade() {
+        RSGroundItem[] spades = GroundItems.findNearest(SPADE_ID);
+        if (spades.length > 0) {
+            RSGroundItem spade = spades[0];
+            if (spade != null) {
+                if (spade.isOnScreen()) {
+                    if (RSUtil.clickRSGroundItem("Take ", spade)) {
+                        Timing.waitCondition(new Condition() {
+                            @Override
+                            public boolean active() {
+                                // TODO Auto-generated method stub
+                                return Inventory.getCount(SPADE_ID) > 0;
+                            }
+                        }, 2000);
+                    }
 
-	/**
-	 * Collects the coke with a spade from a RSObject, will walk to the object if it's not on screen.
-	 */
-	private void collectCoke() {
-		RSObject[]  cocacolas = Objects.findNearest(40, "Coke");
-		if(cocacolas.length > 0) {
-			RSObject coke = cocacolas[0];
-			if(coke != null) {
-				if(coke.isOnScreen()) {
-					if(RSUtil.clickRSObject("Collect", coke))
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								// TODO Auto-generated method stub
-								return Inventory.getCount(COKE_ID) > 0;
-							}
-						}, 2000);
-				} else {
-					if (coke.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
-						Camera.turnToTile(coke);
-					} else {
-						Walking.walkTo(coke.getPosition());
-					}
-				}
-			}
-		}
-	}
+                } else {
+                    if (spade.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
+                        Camera.turnToTile(spade);
+                    } else {
+                        Walking.walkTo(spade.getPosition());
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Heats the stove with the coke, will walk to the object if it's not on screen.
-	 */
-	private void refuelStove() {
-		RSObject stove = null;
-		RSObject[] stoves = Objects.findNearest(40, "Stove");
-		if(stoves.length > 0) {
-			stove = stoves[0];
-			if(stove != null) {
-				if(stove.isOnScreen()) {
-					if(RSUtil.clickRSObject("Refuel", stove))
-						Timing.waitCondition(new Condition() {
+    /**
+     * Collects the coke with a spade from a RSObject, will walk to the object if it's not on screen.
+     */
+    private void collectCoke() {
+        RSObject[] cocacolas = Objects.findNearest(40, "Coke");
+        if (cocacolas.length > 0) {
+            RSObject coke = cocacolas[0];
+            if (coke != null) {
+                if (coke.isOnScreen()) {
+                    if (RSUtil.clickRSObject("Collect", coke)) {
+                        Timing.waitCondition(new Condition() {
+                            @Override
+                            public boolean active() {
+                                // TODO Auto-generated method stub
+                                return Inventory.getCount(COKE_ID) > 0;
+                            }
+                        }, 2000);
+                    }
+                } else {
+                    if (coke.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
+                        Camera.turnToTile(coke);
+                    } else {
+                        Walking.walkTo(coke.getPosition());
+                    }
+                }
+            }
+        }
+    }
 
-							@Override
-							public boolean active() {
-								// TODO Auto-generated method stub
-								return Inventory.getCount(COKE_ID) == 0;
-							}
-						}, 2000);
-				} else {
-					if (stove.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
-						Camera.turnToTile(stove);
-					} else {
-						Walking.walkTo(stove.getPosition());
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Heats the stove with the coke, will walk to the object if it's not on screen.
+     */
+    private void refuelStove() {
+        RSObject stove = null;
+        RSObject[] stoves = Objects.findNearest(40, "Stove");
+        if (stoves.length > 0) {
+            stove = stoves[0];
+            if (stove != null) {
+                if (stove.isOnScreen()) {
+                    if (RSUtil.clickRSObject("Refuel", stove)) {
+                        Timing.waitCondition(new Condition() {
+
+                            @Override
+                            public boolean active() {
+                                // TODO Auto-generated method stub
+                                return Inventory.getCount(COKE_ID) == 0;
+                            }
+                        }, 2000);
+                    }
+                } else {
+                    if (stove.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
+                        Camera.turnToTile(stove);
+                    } else {
+                        Walking.walkTo(stove.getPosition());
+                    }
+                }
+            }
+        }
+    }
 }
-
-
