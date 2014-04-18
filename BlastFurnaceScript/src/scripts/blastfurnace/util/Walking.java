@@ -8,10 +8,13 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.api2007.util.DPathNavigator;
-
+/**
+ * 
+ */
 public class Walking {
  
 	/**
+	 * Sets the timeout to the length specified (ms)
 	 * @param timeout length of time(ms) before walking times out
 	 */
 	public static void setWalkingTimeout(int timeout) {
@@ -19,6 +22,7 @@ public class Walking {
 	}
 
 	/**
+	 * Sets control click to the boolean specified
 	 * @param b true to control click when walking
 	 */
 	public static void setControlClick(boolean b) {
@@ -26,6 +30,7 @@ public class Walking {
 	}
 
 	/**
+	 * Gets the next tile with the specified RSTile[] array
 	 * @param screenWalk true to use screen to walk the path
 	 * @param path the RSTile[] array of the path that it will use
 	 * @return the next RSTile it should walk with the array.
@@ -42,6 +47,7 @@ public class Walking {
 	}
 
 	/**
+	 * Checks if you can walk the specified RSTile[] array or not.
 	 * @param screenWalk true to use screen to walk the path
 	 * @param path the RSTile[] array of the path that it will use
 	 * @return true if it can walk the path
@@ -61,6 +67,7 @@ public class Walking {
 	}
 
 	/**
+	 * Checks whether you can the specified RSTile[] array or not
 	 * @param screenWalk true to use screen to walk the path
 	 * @param path the RSTile that it will use to check if it can walk the tile
 	 * @return true if it can walk to the tile
@@ -75,6 +82,7 @@ public class Walking {
 	}
 
 	/**
+	 * Walks to the specified tile
 	 * @param tile the RSTile it will walk to
 	 * @return true if walks to the tile
 	 */
@@ -86,6 +94,7 @@ public class Walking {
 	}
 
 	/**
+	 * Blind walks to the specified tile
 	 * @param tile the RSTile it will walk to
 	 * @return true if walks to the tile
 	 */
@@ -97,6 +106,7 @@ public class Walking {
 	}
 
 	/**
+	 * Gets the closest tile within the array
 	 * @param tiles the RSTile[] array that it will use to get the closest tile
 	 * @return the RSTile that is closest to you in the RSTile[] array
 	 */
@@ -117,6 +127,7 @@ public class Walking {
 	}
 
 	/**
+	 * Walks the path
 	 * @param screenWalk true if you want to use the screen to walk the path
 	 * @return true if it walks the path sucessfully
 	 */
