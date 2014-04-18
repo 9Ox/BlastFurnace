@@ -21,11 +21,11 @@ public class Fueler extends Job {
 
 	private final int SPADE_ID = 952;
 	private final int COKE_ID = 6448;
-
+	private final int HOT_STOVE = 9087;
 	@Override
 	public boolean shouldDo() {
 		// TODO Auto-generated method stub
-		return false;
+		return Objects.findNearest(40, HOT_STOVE).length == 0;
 	}
 
 	@Override
@@ -43,10 +43,10 @@ public class Fueler extends Job {
 
 
 	private void pickupSpade() {
-		RSGroundItem spade = null;
+		
 		RSGroundItem[] spades = GroundItems.findNearest(SPADE_ID);
 		if(spades.length > 0) {
-			spade = spades[0];
+			RSGroundItem spade = spades[0];
 			if(spade != null) {
 				if(spade.isOnScreen()) {
 					if(RSUtil.clickRSGroundItem("Take ", spade))
@@ -71,10 +71,10 @@ public class Fueler extends Job {
 
 
 	private void collectCoke() {
-		RSObject coke = null;
+		
 		RSObject[]  cocacolas = Objects.findNearest(40, "Coke");
 		if(cocacolas.length > 0) {
-			coke = cocacolas[0];
+			RSObject coke = cocacolas[0];
 			if(coke != null) {
 				if(coke.isOnScreen()) {
 					if(RSUtil.clickRSObject("Collect", coke))
