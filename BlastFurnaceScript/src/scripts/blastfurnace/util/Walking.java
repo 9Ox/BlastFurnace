@@ -100,7 +100,7 @@ public class Walking {
         if (destination != null && destination.distanceTo(tile) <= 2) {
             return true;
         }
-        return Walking.walkTo(tile);
+        return org.tribot.api2007.Walking.walkTo(tile);
     }
 
     /**
@@ -114,7 +114,7 @@ public class Walking {
         if (destination != null && destination.distanceTo(tile) <= 2) {
             return true;
         }
-        return Walking.blindWalkTo(tile);
+        return org.tribot.api2007.Walking.blindWalkTo(tile);
     }
 
     /**
