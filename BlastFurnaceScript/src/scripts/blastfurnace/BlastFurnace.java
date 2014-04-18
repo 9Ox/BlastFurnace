@@ -18,6 +18,7 @@ import org.tribot.script.interfaces.Painting;
 import scripts.blastfurnace.framework.JobLoop;
 import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.jobs.CashMoney;
+import scripts.blastfurnace.jobs.Cooler;
 import scripts.blastfurnace.jobs.Fueler;
 import scripts.blastfurnace.jobs.Pedaler;
 import scripts.blastfurnace.jobs.PipeRepairer;
@@ -70,6 +71,8 @@ public class BlastFurnace
                 case "ShoutCaller":
                     JobManager.addJob(new ShoutCaller());
                     break;
+                case "Cooler":
+                    JobManager.addJob(new Cooler());
                 default:
                     break;
             }
