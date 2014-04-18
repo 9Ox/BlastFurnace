@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.tribot.api.types.generic.Condition;
 
-import scripts.blastfurnace.framework.Job;
  
 /**
  * @author Starfox
