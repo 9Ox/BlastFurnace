@@ -46,7 +46,13 @@ public class Paint {
         public boolean isUp() {
             return System.currentTimeMillis() > finishTime;
         }
+        
+        public long getTimeLeft() {
+            return this.finishTime - System.currentTimeMillis();
+        }
     }
+    
+    public static double checker = 0;
 
     /**
      * Draws a trail behind the mouse.
@@ -60,14 +66,16 @@ public class Paint {
         }
         Point clientCursor = Mouse.getPos();
         MousePathPoint mpp = new MousePathPoint(clientCursor.x, clientCursor.y,
-                350); //Lasting time/MS
+                400); //Lasting time/MS
         if (mousePath.isEmpty() || !mousePath.getLast().equals(mpp)) {
             mousePath.add(mpp);
         }
         MousePathPoint lastPoint = null;
         for (MousePathPoint a : mousePath) {
             if (lastPoint != null) {
-                g.setColor(c);//Trail color
+                double alpha = a.getTimeLeft() / a.lastingTime * 100.0 * 2.55;
+                checker = alpha;
+                g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), (int)alpha));//Trail color
                 g.drawLine(a.x, a.y, lastPoint.x, lastPoint.y);
             }
             lastPoint = a;
