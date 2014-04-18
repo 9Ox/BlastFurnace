@@ -17,18 +17,18 @@ import scripts.blastfurnace.util.Walking;
  */
 public class PipeRepairer extends Job {
 
-    private final String REPAIR_OPTION = "Repair Pipes";
+    private final String REPAIR_OPTION = "Repair";
 
     @Override
     public boolean shouldDo() {
-        RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsEquals(REPAIR_OPTION));
+        RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
         return pipes.length > 0;
     }
 
     @Override
     public void doJob() {
         RSObject pipe;
-        RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsEquals(REPAIR_OPTION));
+        RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
         if (pipes.length > 0) {
             pipe = pipes[0];
             if (pipe != null) {
