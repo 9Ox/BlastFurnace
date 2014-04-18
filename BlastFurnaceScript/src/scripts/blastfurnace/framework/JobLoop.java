@@ -1,4 +1,4 @@
-package scripts.framework;
+package scripts.blastfurnace.framework;
 
 import org.tribot.api.General;
 
@@ -7,7 +7,7 @@ import org.tribot.api.General;
  */
 public class JobLoop {
     private static boolean ready = false;
-    
+     
     /**
      * Should be called once all the desired Jobs and terminate conditions have been added to the JobManager.
      * @param b true to set the script to be ready; false otherwise.

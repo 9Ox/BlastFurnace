@@ -1,8 +1,11 @@
-package scripts.framework;
+package scripts.blastfurnace.framework;
 
 import java.util.ArrayList;
+
 import org.tribot.api.types.generic.Condition;
 
+import scripts.blastfurnace.framework.Job;
+ 
 /**
  * @author Starfox
  */
@@ -18,7 +21,7 @@ public class JobManager {
     public static void addJob(Job job) {
         jobs.add(job);
     }
-    
+     
     /**
      * Adds a terminate condition to the JobManager.
      * @param c The condition to add.
@@ -26,7 +29,7 @@ public class JobManager {
     public static void addTerminateCondition(Condition c) {
         terminateConditions.add(c);
     }
-    
+     
     /**
      * Goes through all Jobs added to the JobManager and runs the first Job that should be done, then returns if a Job was done.
      */

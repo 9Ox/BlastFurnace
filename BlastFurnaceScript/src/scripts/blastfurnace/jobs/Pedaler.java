@@ -1,6 +1,6 @@
-package scripts.jobs;
+package scripts.blastfurnace.jobs;
 
-import scripts.framework.Job;
+import scripts.blastfurnace.framework.Job;
 
 /**
  * @author Starfox, erickho123

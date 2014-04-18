@@ -1,8 +1,8 @@
-package scripts.framework;
+package scripts.blastfurnace.framework;
 
 /**
  * @author Starfox
- */
+ */ 
 public class JobLoader {
     
     /**

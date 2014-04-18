@@ -1,11 +1,11 @@
-package scripts.jobs;
+package scripts.blastfurnace.jobs;
 
-import scripts.framework.Job;
+import scripts.blastfurnace.framework.Job;
 
 /**
  * @author Starfox, erickho123
  */ 
-public class Fueler extends Job {
+public class PipeRepairer extends Job {
 	
 	
 

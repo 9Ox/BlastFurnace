@@ -1,4 +1,4 @@
-package scripts.paint;
+package scripts.blastfurnace.paint;
 
 import java.awt.Image;
 import java.io.IOException;
@@ -25,3 +25,4 @@ public class Paint {
         }
     }
 }
+ 

@@ -1,10 +1,12 @@
-package scripts;
+package scripts.blastfurnace;
 
 import java.awt.Graphics;
+
 import org.tribot.api2007.util.ThreadSettings;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
-import scripts.framework.JobLoop;
+
+import scripts.blastfurnace.framework.JobLoop;
 
 /**
  * @author erickho123, starfox
