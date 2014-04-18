@@ -41,9 +41,10 @@ public class Fueler extends Job {
 
 	}
 
-
+	/**
+	 * Picks up the spade, if it's not on screen it will walk to it.
+	 */
 	private void pickupSpade() {
-		
 		RSGroundItem[] spades = GroundItems.findNearest(SPADE_ID);
 		if(spades.length > 0) {
 			RSGroundItem spade = spades[0];
@@ -57,7 +58,7 @@ public class Fueler extends Job {
 								return Inventory.getCount(SPADE_ID) > 0;
 							}
 						}, 2000);
-					
+
 				} else {
 					if (spade.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
 						Camera.turnToTile(spade);
@@ -69,9 +70,10 @@ public class Fueler extends Job {
 		}
 	}
 
-
+	/**
+	 * Collects the coke with a spade from a RSObject, will walk to the object if it's not on screen.
+	 */
 	private void collectCoke() {
-		
 		RSObject[]  cocacolas = Objects.findNearest(40, "Coke");
 		if(cocacolas.length > 0) {
 			RSObject coke = cocacolas[0];
@@ -96,6 +98,9 @@ public class Fueler extends Job {
 		}
 	}
 
+	/**
+	 * Heats the stove with the coke, will walk to the object if it's not on screen.
+	 */
 	private void refuelStove() {
 		RSObject stove = null;
 		RSObject[] stoves = Objects.findNearest(40, "Stove");
