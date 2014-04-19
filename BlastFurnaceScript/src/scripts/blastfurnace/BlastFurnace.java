@@ -77,6 +77,7 @@ implements Painting, Arguments, MessageListening07, MousePainting, MouseSplinePa
 				break;
 			case "Cooler":
 				JobManager.addJob(new Cooler());
+				break;
 			default:
 				break;
 			}
