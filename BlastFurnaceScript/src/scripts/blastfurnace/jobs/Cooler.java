@@ -66,6 +66,9 @@ public class Cooler extends Job {
         }
     }
 
+    /**
+     * Fills an empty bucket in the blast furnace sink.
+     */
     private void fillBucket() {
         RSObject sink = Get.getObject(40, 9143);
         if (sink != null) {
