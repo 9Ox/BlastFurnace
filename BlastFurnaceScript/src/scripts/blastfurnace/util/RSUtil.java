@@ -19,7 +19,7 @@ public class RSUtil {
     public static boolean clickRSObject(final String option, final RSObject... entities) {
         if (Clicking.click(option, entities)) {
             final RSTile destination = Game.getDestination();
-            return destination != null && Player.getPosition().distanceTo(destination) <= 1;
+            return destination != null && entities[0].getPosition().distanceTo(destination) <= 1;
         }
         return false;
     }
@@ -33,7 +33,7 @@ public class RSUtil {
     public static boolean clickRSNPC(final String option, final RSNPC... entities) {
         if (Clicking.click(option, entities)) {
             final RSTile destination = Game.getDestination();
-            return destination != null && Player.getPosition().distanceTo(destination) <= 1;
+            return destination != null && entities[0].getPosition().distanceTo(destination) <= 1;
         }
         return false;
     }
@@ -47,7 +47,7 @@ public class RSUtil {
     public static boolean clickRSGroundItem(final String option, final RSGroundItem... entities) {
         if (Clicking.click(option, entities)) {
             final RSTile destination = Game.getDestination();
-            return destination != null && Player.getPosition().distanceTo(destination) <= 1;
+            return destination != null && entities[0].getPosition().distanceTo(destination) <= 1;
         }
         return false;
     }
