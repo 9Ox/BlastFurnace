@@ -53,7 +53,7 @@ public class JobLoop {
 			if(Game.getCurrentWorld() != BlastFurnace.START_WORLD) {
 				BlastFurnace.script.setLoginBotState(false);
 				if(WorldHop.switchWorld(BlastFurnace.START_WORLD)) {
-					BlastFurnace.script.setLoginBotState(false);
+					BlastFurnace.script.setLoginBotState(true);
 				}
 			} else {
 				JobManager.runJobs();
