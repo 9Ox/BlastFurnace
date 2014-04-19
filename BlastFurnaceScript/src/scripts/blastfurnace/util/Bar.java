@@ -9,7 +9,7 @@ import org.tribot.api2007.types.RSInterfaceChild;
  * @author Nolan
  */
 public enum Bar {
-    BRONZE(108, 0), IRON(109, 8), STEEL(110, 16), MITHRIL(111, 24), ADAMANT(112, 32), RUNE(113, 40), SILVER(114, 48), GOLD(115, 54);
+    BRONZE(108, 0), IRON(109, 8), STEEL(110, 16), MITHRIL(111, 24), ADAMANT(112, 32), RUNE(113, 40), SILVER(114, 48), GOLD(115, 56);
     
     private final int MASTER_INDEX = 28;
     private final int SETTING_INDEX = 545;
