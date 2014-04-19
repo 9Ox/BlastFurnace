@@ -10,8 +10,8 @@ import scripts.blastfurnace.framework.Job;
 
 public class ShoutCaller extends Job {
 
-    private final int PARENT_ID = -1;
-    private final int CHILD_ID = 0;
+    private final int PARENT_ID = 30;
+    private final int CHILD_ID = 3;
 
     @Override
     public boolean shouldDo() {
