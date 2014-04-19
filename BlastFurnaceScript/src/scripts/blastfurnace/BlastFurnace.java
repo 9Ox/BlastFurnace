@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.tribot.api2007.Game;
 import org.tribot.api2007.util.ThreadSettings;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Arguments;
@@ -15,6 +17,7 @@ import org.tribot.script.interfaces.MessageListening07;
 import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.MouseSplinePainting;
 import org.tribot.script.interfaces.Painting;
+
 import scripts.blastfurnace.framework.JobLoop;
 import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.jobs.CashMoney;
@@ -37,6 +40,7 @@ public class BlastFurnace
      * Creates a new BlastFurnace object. Should be used to initialize any class specific variables and set any internal operations.
      */
     public BlastFurnace() {
+    	println(Game.getSetting(545) >> 24);
         ThreadSettings.get().setClickingAPIUseDynamic(true);
         JobLoop.setReady(true);
     }
