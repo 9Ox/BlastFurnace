@@ -14,6 +14,7 @@ import org.tribot.script.interfaces.MessageListening07;
 import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.MouseSplinePainting;
 import org.tribot.script.interfaces.Painting;
+import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.framework.JobLoop;
 import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.jobs.CashMoney;
@@ -26,6 +27,7 @@ import scripts.blastfurnace.jobs.ShoutCaller;
 import scripts.blastfurnace.paint.Paint;
 import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
+import scripts.blastfurnace.util.Statics;
 import scripts.blastfurnace.util.WorldHop;
 
 /**
@@ -53,6 +55,7 @@ public class BlastFurnace
 
     @Override
     public void onPaint(Graphics g1) {
+        
     }
 
     @Override
@@ -64,7 +67,6 @@ public class BlastFurnace
                     JobManager.addJob(new Fueler());
                     break;
                 case "Pedaler":
-                    Pumper.shoutCallerName = input.split(":")[1];
                     JobManager.addJob(new Pedaler());
                     break;
                 case "PipeRepairer":
@@ -80,6 +82,9 @@ public class BlastFurnace
                 case "Cooler":
                     JobManager.addJob(new Cooler());
                     break;
+                case "Pumper":
+                    Statics.shoutCallerName = input.split(":")[1];
+                    JobManager.addJob(new Pumper());
                 default:
                     break;
             }
@@ -98,8 +103,8 @@ public class BlastFurnace
 
     @Override
     public void playerMessageReceived(String arg0, String arg1) {
-        if (!Pumper.shoutCallerName.isEmpty() && Pumper.shoutCallerName.equalsIgnoreCase(arg0)) {
-            Pumper.startPumping = !arg1.equalsIgnoreCase("stop nigga");
+        if (!Statics.shoutCallerName.isEmpty() && Statics.shoutCallerName.equalsIgnoreCase(arg0)) {
+            Statics.startPumping = !arg1.equalsIgnoreCase("stop nigga");
         }
     }
 
