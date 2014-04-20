@@ -9,6 +9,8 @@ import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSObject;
+import org.tribot.api2007.types.RSTile;
+
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
@@ -21,7 +23,7 @@ public class Cooler extends Job {
 
     public static final int EMPTY_BUCKET_ID = 1925;
     public static final int FULL_BUCKET_ID = 1929;
-
+    private final RSTile SINK_TILE = new RSTile(1942,4956,0);
     @Override
     public boolean shouldDo() {
         return (Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
@@ -70,7 +72,7 @@ public class Cooler extends Job {
      * Fills an empty bucket in the blast furnace sink.
      */
     private void fillBucket() {
-        RSObject sink = Get.getObject(40, 9143);
+        RSObject sink = Get.getObject(SINK_TILE);
         if (sink != null) {
             if (sink.isOnScreen()) {
                 if (Clicking.click("Use", Inventory.find(EMPTY_BUCKET_ID))) {
