@@ -43,8 +43,7 @@ public class ShoutCaller extends Job {
 
 	@Override
 	public boolean shouldDo() {
-		RSInterfaceChild gauge = Interfaces.get(PARENT_ID, CHILD_ID);
-		return gauge == null || needsToSayStop();
+		return true;
 	}
 
 	@Override
