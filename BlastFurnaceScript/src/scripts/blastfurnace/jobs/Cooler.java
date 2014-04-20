@@ -6,6 +6,7 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSObject;
@@ -24,10 +25,12 @@ public class Cooler extends Job {
     public static final int EMPTY_BUCKET_ID = 1925;
     public static final int FULL_BUCKET_ID = 1929;
     private final RSTile SINK_TILE = new RSTile(1942,4956,0);
+    private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
+    
     @Override
     public boolean shouldDo() {
         return (Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
-                || Inventory.getCount(EMPTY_BUCKET_ID) > 0;
+                || Inventory.getCount(EMPTY_BUCKET_ID) > 0 /*check bars not cooled*/;
     }
 
     @Override
@@ -36,7 +39,8 @@ public class Cooler extends Job {
             getBucket();
         } else if (Inventory.getCount(EMPTY_BUCKET_ID) > 0) {
             fillBucket();
-        }
+        }/*if not cooled*/
+        coolBars();
     }
 
     /**
@@ -90,6 +94,30 @@ public class Cooler extends Job {
                     Camera.turnToTile(sink);
                 } else {
                     Walking.blindWalkTo(sink.getPosition());
+                }
+            }
+        }
+    }
+    
+    private void coolBars() {
+        RSObject dispenser = Get.getObject(BAR_DISPENSER_TILE);
+        if (dispenser != null) {
+            if (dispenser.isOnScreen()) {
+                if (Clicking.click("Use", Inventory.find(FULL_BUCKET_ID))) {
+                    if (dispenser.click("Use")) {
+                        Timing.waitCondition(new Condition() {
+                            @Override
+                            public boolean active() {
+                                return false; //check if bars cooled
+                            }
+                        }, 3000);
+                    }
+                }
+            } else {
+                if (dispenser.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
+                    Camera.turnToTile(dispenser);
+                } else {
+                    Walking.walkPath(false, PathFinding.generatePath(Player.getPosition(), dispenser, true));
                 }
             }
         }
