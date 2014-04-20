@@ -14,6 +14,14 @@ public class JobManager {
     private static final ArrayList<Condition> terminateConditions = new ArrayList<>();
     
     /**
+     * Gets the list of jobs.
+     * @return the list of jobs.
+     */
+    public static ArrayList<Job> getJobs() {
+        return jobs;
+    }
+    
+    /**
      * Adds a Job to the JobManager.
      * @param job The Job to add.
      */
