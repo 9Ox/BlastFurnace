@@ -4,6 +4,7 @@ import org.tribot.api.Clicking;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
+import org.tribot.api2007.Game;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.PathFinding;
@@ -26,11 +27,11 @@ public class Cooler extends Job {
     public static final int FULL_BUCKET_ID = 1929;
     private final RSTile SINK_TILE = new RSTile(1942,4956,0);
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
-    
+    private final int DISPENSER_SETTING_INDEX = -1;
     @Override
     public boolean shouldDo() {
-        return (Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
-                || Inventory.getCount(EMPTY_BUCKET_ID) > 0 /*check bars not cooled*/;
+        return needsToCoolBar() && ((Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
+                || Inventory.getCount(EMPTY_BUCKET_ID) > 0) /*check bars not cooled*/;
     }
 
     @Override
@@ -41,6 +42,11 @@ public class Cooler extends Job {
             fillBucket();
         }/*if not cooled*/
         coolBars();
+    }
+    
+    
+    private boolean needsToCoolBar() {
+    	return Game.getSetting(DISPENSER_SETTING_INDEX) == 1;
     }
 
     /**
