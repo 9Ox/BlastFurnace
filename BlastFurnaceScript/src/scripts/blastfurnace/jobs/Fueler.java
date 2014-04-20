@@ -24,7 +24,7 @@ public class Fueler extends Job {
 	private final int SPADE_ID = 952;
 	private final int COKE_ID = 6448;
 	private final int HOT_STOVE = 9087;
-	private final RSTile STOVE_TILE = new RSTile(1949,4963,0);
+	private final RSTile STOVE_TILE = new RSTile(1948,4963,0);
 	private final RSTile COKE_TILE = new RSTile(1950,4964,0);
 
 	@Override
