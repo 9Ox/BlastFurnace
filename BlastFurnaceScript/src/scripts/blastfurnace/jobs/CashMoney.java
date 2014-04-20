@@ -1,11 +1,14 @@
 package scripts.blastfurnace.jobs;
 
+import java.util.Arrays;
+
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.NPCChat;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
@@ -28,10 +31,11 @@ public class CashMoney extends Job {
 	private final int MAX_SECONDARY_AMOUNT = 254;
 	private final RSTile BAR_DISPENSER_TILE = new RSTile(1940,4963,0);
 	private final RSTile BANK_CHEST_TILE = new RSTile(1948,4956,0);
+	private final RSTile CONVEYOR_BELT_TILE = new RSTile(1943,4967,0);
 	private final Cooler cooler;
 	private final Bar barType;
-	
-	
+
+
 	public CashMoney(Bar barType) {
 		cooler = new Cooler();
 		this.barType = barType;
@@ -54,9 +58,15 @@ public class CashMoney extends Job {
 		} else if (barType.getAmountStored() > 0) {
 			collectBars();
 		} else if (getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT) {
-			putOresIn(barType.getOres()[0]);
+			if(Inventory.getCount(barType.getOres()[0]) == 0)
+				getOres(barType.getOres()[0]);
+			else
+				putOresIn(barType.getOres()[0]);
 		} else if (barType.requiresSeconary() && getSecondaryOreAmount() != MAX_SECONDARY_AMOUNT) {
-			putOresIn(barType.getOres()[1]);
+			if(Inventory.getCount(barType.getOres()[1]) == 0)
+				getOres(barType.getOres()[1]);
+			else
+				putOresIn(barType.getOres()[1]);
 		}
 	}
 
@@ -130,6 +140,42 @@ public class CashMoney extends Job {
 	 * Puts ores in the furnace. Withdraws ores if none are in inventory.
 	 */
 	private void putOresIn(final int id) {
+		if(Banking.isBankScreenOpen()) {
+			Banking.close();
+		} else {
+			String[] npcOptions = NPCChat.getOptions();
+			if(npcOptions != null && npcOptions.length > 0 && Arrays.asList(npcOptions).contains("Yes")) {
+				NPCChat.selectOption("Yes", true);
+			} else {
+				RSObject belt = Get.getObject(CONVEYOR_BELT_TILE);
+				if(belt != null) {
+					if(belt.isOnScreen()) {
+						if(RSUtil.clickRSObject("Put-ore-on", belt))
+							Timing.waitCondition(new Condition() {
+
+								@Override
+								public boolean active() {
+									String[] npcOptions = NPCChat.getOptions();
+									return npcOptions != null && npcOptions.length > 0 && Arrays.asList(npcOptions).contains("Yes");
+								}
+							}, 9000);
+					} else {
+						if (belt.getPosition().distanceTo(Player.getPosition()) <= 4) {
+							Camera.turnToTile(belt);
+						} else {
+							Walking.walkPath(PathFinding.generatePath(Player.getPosition(), belt, true));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Withdraws the specified ore id from the bank
+	 * @param id The ore id to withdraw
+	 */
+	private void getOres(final int id) {
 		if (Inventory.getCount(id) <= 0) {
 			if (!Banking.isBankScreenOpen()) {
 				openBankChest();
@@ -145,11 +191,8 @@ public class CashMoney extends Job {
 						}, 3000);
 				}
 			}
-		} else {
-			//shove that shit in the furnace
 		}
 	}
-
 	/**
 	 * Opens bank chest
 	 */
