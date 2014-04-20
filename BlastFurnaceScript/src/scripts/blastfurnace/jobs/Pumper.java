@@ -14,13 +14,14 @@ import org.tribot.api2007.types.RSTile;
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
+import scripts.blastfurnace.util.Statics;
 
 /**
  * @author Starfox, erickho123
  */
 public class Pumper extends Job {
 
-    public static boolean startPumping = false;
+ 
     private final int PUMPING_ANIMATION = 2432;
     private final int TEMPEATURE_SETTING = -1;
     private final RSTile STOP_TILE = new RSTile(1952, 4961, 0);
@@ -31,15 +32,15 @@ public class Pumper extends Job {
 
     @Override
     public boolean shouldDo() {
-        return startPumping && Player.getAnimation() != PUMPING_ANIMATION || !startPumping && Player.getAnimation() == PUMPING_ANIMATION || Combat.getHPRatio() <= 70;
+        return Statics.startPumping && Player.getAnimation() != PUMPING_ANIMATION || !Statics.startPumping && Player.getAnimation() == PUMPING_ANIMATION || Combat.getHPRatio() <= 70;
     }
 
     @Override
     public void doJob() {
         int playerAnimation = Player.getAnimation();
-        if (startPumping && playerAnimation == PUMPING_ANIMATION) {
+        if (Statics.startPumping && playerAnimation == PUMPING_ANIMATION) {
             General.sleep(10, 20); // condtional sleep maybe later
-        } else if (!startPumping && playerAnimation == PUMPING_ANIMATION || Combat.getHPRatio() <= 70) {
+        } else if (!Statics.startPumping && playerAnimation == PUMPING_ANIMATION || Combat.getHPRatio() <= 70) {
             Walking.walkTo(STOP_TILE);
         } else {
             operatePump();
@@ -65,7 +66,7 @@ public class Pumper extends Job {
 
                                 @Override
                                 public boolean active() {
-                                    return !startPumping || Combat.getHPRatio() <= 70;
+                                    return !Statics.startPumping || Combat.getHPRatio() <= 70;
                                 }
                             }, 5000);
                         }
