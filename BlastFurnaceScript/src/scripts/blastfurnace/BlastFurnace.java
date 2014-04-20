@@ -1,15 +1,21 @@
 package scripts.blastfurnace;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.tribot.api.General;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Arguments;
+import org.tribot.script.interfaces.EventBlockingOverride;
 import org.tribot.script.interfaces.MessageListening07;
 import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.MouseSplinePainting;
@@ -35,15 +41,20 @@ import scripts.blastfurnace.util.WorldHop;
  */
 public class BlastFurnace
         extends Script
-        implements Painting, Arguments, MessageListening07, MousePainting, MouseSplinePainting {
+        implements Painting, Arguments, MessageListening07, MousePainting, MouseSplinePainting, EventBlockingOverride {
 
     /**
      * Creates a new BlastFurnace object. Should be used to initialize any class specific variables and set any internal operations.
      */
     public static BlastFurnace script;
     public static final int START_WORLD = WorldHop.getWorld();
+    private final Rectangle PAINT_RECT;
+    private boolean showPaint;
+    private float opacity = 1.0f;
 
     public BlastFurnace() {
+        PAINT_RECT = new Rectangle(7, 345, 490, 129);
+        showPaint = true;
         JobLoop.setReady(true);
     }
 
@@ -55,7 +66,18 @@ public class BlastFurnace
 
     @Override
     public void onPaint(Graphics g1) {
-        
+        Graphics2D g2 = (Graphics2D) g1;
+        if (!showPaint && opacity > 0.0f) {
+            opacity -= .05f;
+        } else if (showPaint && opacity < 1.0f) {
+            opacity += .05f;
+        }
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+        ((Graphics2D) g1).setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+        g2.setColor(new Color(0, 0, 0, 220));
+        g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
+        g2.setColor(new Color(255, 255, 255, 220));
+        g2.drawString("The swag furnace v1.0", 17, 365);
     }
 
     @Override
@@ -133,5 +155,18 @@ public class BlastFurnace
 
     @Override
     public void paintMouseSpline(Graphics g, ArrayList<Point> al) {
+    }
+
+    @Override
+    public OVERRIDE_RETURN overrideKeyEvent(KeyEvent ke) {
+        return OVERRIDE_RETURN.PROCESS;
+    }
+
+    @Override
+    public OVERRIDE_RETURN overrideMouseEvent(MouseEvent me) {
+        if (me.getID() == MouseEvent.MOUSE_CLICKED && PAINT_RECT.contains(General.getRealMousePos())) {
+            showPaint = !showPaint;
+        }
+        return OVERRIDE_RETURN.PROCESS;
     }
 }
