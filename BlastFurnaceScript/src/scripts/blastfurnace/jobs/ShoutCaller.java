@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
+import org.tribot.api.types.colour.Tolerance;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Interfaces;
@@ -28,6 +29,7 @@ public class ShoutCaller extends Job {
 	private final int CHILD_ID = 3;
 	private final RSTile GAUGE_TILE = new RSTile(1945,4961,0);
 	private final Color SPINNER_COLOR = new Color(20, 17, 17);
+	private final Tolerance SPINNER_TOLERANCE = new Tolerance(10);
 	/**
 	 * Heated area is approximately after half of green and stops between half of red.
 	 */ 
@@ -106,7 +108,7 @@ public class ShoutCaller extends Job {
 	private boolean needsToSayStop() {
 		for(Point p : HEATED_AREA_POINTS) {
 			Color colorP = Screen.getColorAt(p);
-			if(colorP != null && colorP.equals(SPINNER_COLOR))
+			if(colorP != null && org.tribot.api.Screen.coloursMatch(colorP, SPINNER_COLOR, SPINNER_TOLERANCE))
 				return true;
 		}
 		return false;
