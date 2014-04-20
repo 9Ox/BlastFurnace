@@ -20,7 +20,6 @@ import org.tribot.script.interfaces.MessageListening07;
 import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.MouseSplinePainting;
 import org.tribot.script.interfaces.Painting;
-import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.framework.JobLoop;
 import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.jobs.CashMoney;
