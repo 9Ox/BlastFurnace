@@ -19,8 +19,8 @@ import scripts.blastfurnace.util.Walking;
  */
 public class Cooler extends Job {
 
-    private final int EMPTY_BUCKET_ID = 1925;
-    private final int FULL_BUCKET_ID = 1929;
+    public static final int EMPTY_BUCKET_ID = 1925;
+    public static final int FULL_BUCKET_ID = 1929;
 
     @Override
     public boolean shouldDo() {
