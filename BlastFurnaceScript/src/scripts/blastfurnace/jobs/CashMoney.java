@@ -23,13 +23,15 @@ import scripts.blastfurnace.util.RSUtil;
  */
 public class CashMoney extends Job {
 
-	private final Bar barType;
+	private final String barName;
 	private final int MAX_PRIMARY_AMOUNT = 28;
 	private final int MAX_SECONDARY_AMOUNT = 254;
-	private final int BAR_DISPENSER_ID = 9092;
+	private final RSTile BAR_DISPENSER_TILE = new RSTile(1940,4963,0);
+	private final RSTile BANK_CHEST_TILE = new RSTile(1948,4956,0);
 	private final Cooler cooler;
-	private final String barName;
-	private final RSTile BANK_CHEST_TILE = new RSTile(-1,-1,0);
+	private final Bar barType;
+	
+	
 	public CashMoney(Bar barType) {
 		cooler = new Cooler();
 		this.barType = barType;
@@ -70,7 +72,7 @@ public class CashMoney extends Job {
 	/**
 	 * Gets the amount of your secondary ore in the furnace
 	 *
-	 * @return the secondary
+	 * @return the secondary ore amount
 	 */
 	private int getSecondaryOreAmount() {
 		return (Game.getSetting(547)) & 0xFE;
@@ -80,7 +82,7 @@ public class CashMoney extends Job {
 	 * Collects bars from the dispense
 	 */
 	private void collectBars() {
-		RSObject dispenser = Get.getObject(40, BAR_DISPENSER_ID);
+		RSObject dispenser = Get.getObject(BAR_DISPENSER_TILE);
 		if (barType.getInterface() == null) {
 			if (dispenser != null) {
 				if (dispenser.isOnScreen()) {
@@ -148,6 +150,9 @@ public class CashMoney extends Job {
 		}
 	}
 
+	/**
+	 * Opens bank chest
+	 */
 	private void openBankChest() {
 		RSObject chest = Get.getObject(BANK_CHEST_TILE);
 		if (chest != null) {
