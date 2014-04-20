@@ -4,6 +4,7 @@ import org.tribot.api.General;
 import org.tribot.api2007.Game;
 
 import scripts.blastfurnace.BlastFurnace;
+import scripts.blastfurnace.util.Statics;
 import scripts.blastfurnace.util.WorldHop;
 
 /**
@@ -49,9 +50,9 @@ public class JobLoop {
     private static void loop() {
         waitUntilReady();
         while (!JobManager.shouldTerminate()) {
-            if (Game.getCurrentWorld() != BlastFurnace.START_WORLD) {
+            if (Game.getCurrentWorld() != Statics.startWorld) {
                 BlastFurnace.script.setLoginBotState(false);
-                if (WorldHop.switchWorld(BlastFurnace.START_WORLD)) {
+                if (WorldHop.switchWorld(Statics.startWorld)) {
                     BlastFurnace.script.setLoginBotState(true);
                 }
             } else {
