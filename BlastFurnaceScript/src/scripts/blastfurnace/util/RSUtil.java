@@ -2,7 +2,6 @@ package scripts.blastfurnace.util;
 
 import org.tribot.api.Clicking;
 import org.tribot.api2007.Game;
-import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
