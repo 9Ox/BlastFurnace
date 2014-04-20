@@ -1,5 +1,10 @@
 package scripts.blastfurnace.util;
 
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSNPC;
@@ -52,5 +57,24 @@ public class Get {
 	public static RSNPC getNpc(final int... ids) {
 		RSNPC[] npcs = NPCs.find(ids);
 		return npcs.length > 0 ? npcs[0] : null;
+	}
+	
+	/**
+	 * Returns points within a polygon
+	 * @param poly the polygon to look within
+	 * @return all the points within a polygon; if none it returns an empty arraylist.
+	 */
+	public static ArrayList<Point> getPolyPoints(Polygon poly) {
+		ArrayList<Point> p = new ArrayList<>();
+		Rectangle rec = poly.getBounds();
+		
+		for (int x = (int) rec.getX(); x < rec.getWidth() + rec.getX(); x++) {
+			for (int y = (int) rec.getY() ; y < rec.getHeight() + rec.getY(); y++) {
+				if(poly.contains(x,y)) {
+					p.add(new Point(x,y));
+				}
+			}
+		}
+		return p;
 	}
 }
