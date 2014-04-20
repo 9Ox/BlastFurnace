@@ -47,7 +47,6 @@ public class BlastFurnace
      * Creates a new BlastFurnace object. Should be used to initialize any class specific variables and set any internal operations.
      */
     public static BlastFurnace script;
-    public static final int START_WORLD = WorldHop.getWorld();
     private final Rectangle PAINT_RECT;
     private boolean showPaint;
     private float opacity = 1.0f;
@@ -55,12 +54,16 @@ public class BlastFurnace
     public BlastFurnace() {
         PAINT_RECT = new Rectangle(7, 345, 490, 129);
         showPaint = true;
+        Statics.startWorld = WorldHop.getWorld();
         JobLoop.setReady(true);
     }
 
     @Override
     public void run() {
         script = this;
+        if (JobManager.getJobs().size() <= 0) {
+            return;
+        }
         JobLoop.start();
     }
 
