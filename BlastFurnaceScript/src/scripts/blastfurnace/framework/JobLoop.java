@@ -50,7 +50,7 @@ public class JobLoop {
     private static void loop() {
         waitUntilReady();
         while (!JobManager.shouldTerminate()) {
-            if (Game.getCurrentWorld() != Statics.startWorld) {
+            if (WorldHop.getWorld() != Statics.startWorld) {
                 BlastFurnace.script.setLoginBotState(false);
                 if (WorldHop.switchWorld(Statics.startWorld)) {
                     BlastFurnace.script.setLoginBotState(true);
