@@ -12,6 +12,7 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.blastfurnace.framework.Job;
+import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
 
 /**
@@ -23,6 +24,7 @@ public class Pumper extends Job {
     private final int PUMPING_ANIMATION = 2432;
     private final int TEMPEATURE_SETTING = -1;
     private final RSTile STOP_TILE = new RSTile(1952, 4961, 0);
+    private final RSTile PUMP_TILE = new RSTile(1950, 4961, 0);
     
     public Pumper() {
     }
@@ -48,9 +50,7 @@ public class Pumper extends Job {
      * Operates the pump when needed, when shout caller calls "Stop", it will run to a safe tile
      */
     private void operatePump() {
-        RSObject[] pumps = Objects.findNearest(40, "Pumps");
-        if (pumps.length > 0) {
-            RSObject pump = pumps[0];
+        RSObject pump = Get.getObject(PUMP_TILE);
             if (pump != null) {
                 if (pump.isOnScreen()) {
                     if (RSUtil.clickRSObject("Pump", pump)) {
@@ -79,6 +79,6 @@ public class Pumper extends Job {
                 }
             }
         }
-    }
+    
 
 }

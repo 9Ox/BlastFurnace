@@ -127,7 +127,7 @@ public class BlastFurnace
     @Override
     public void playerMessageReceived(String arg0, String arg1) {
         if (!Statics.shoutCallerName.isEmpty() && Statics.shoutCallerName.equalsIgnoreCase(arg0)) {
-            Statics.startPumping = !arg1.equalsIgnoreCase("stop nigga");
+            Statics.startPumping = !arg1.equalsIgnoreCase("stop");
         }
     }
 

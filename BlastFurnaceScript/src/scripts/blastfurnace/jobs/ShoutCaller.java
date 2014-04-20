@@ -55,7 +55,7 @@ public class ShoutCaller extends Job {
 		General.println(needsToSayStop());
 		if (gauge != null) {
 			if (needsToSayStop()) {
-				Keyboard.typeSend("STOP NIGGA");
+				Keyboard.typeSend("Stop");
 				Timing.waitCondition(new Condition() {
 					@Override
 					public boolean active() {
@@ -63,7 +63,7 @@ public class ShoutCaller extends Job {
 					}
 				}, 20000);
 			} else if (!needsToSayStop()) {
-				Keyboard.typeSend("START NIGGA");
+				Keyboard.typeSend("Start");
 				Timing.waitCondition(new Condition() {
 					@Override
 					public boolean active() {
