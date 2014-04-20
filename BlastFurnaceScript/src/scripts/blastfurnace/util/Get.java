@@ -4,6 +4,7 @@ import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
+import org.tribot.api2007.types.RSTile;
 
 /**
  * @author Starfox
@@ -17,6 +18,16 @@ public class Get {
 	 */
 	public static RSObject getObject(final int dist, final int... ids) {
 		RSObject[] objs = Objects.findNearest(dist, ids);
+		return objs.length > 0 ? objs[0] : null;
+	}
+	
+	/**
+	 * Returns the nearest RSObject with the specified RSTile
+	 * @param tile the RSTile the object is at
+	 * @return The nearest RSObject found; null if none were found.
+	 */
+	public static RSObject getObject(RSTile tile) {
+		RSObject[] objs = Objects.getAt(tile);
 		return objs.length > 0 ? objs[0] : null;
 	}
 
