@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.types.colour.Tolerance;
@@ -29,7 +30,7 @@ public class ShoutCaller extends Job {
 	private final int CHILD_ID = 3;
 	private final RSTile GAUGE_TILE = new RSTile(1945,4961,0);
 	private final Color SPINNER_COLOR = new Color(20, 17, 17);
-	private final Tolerance SPINNER_TOLERANCE = new Tolerance(10);
+	private final Tolerance SPINNER_TOLERANCE = new Tolerance(1);
 	/**
 	 * Heated area is approximately after half of green and stops between half of red.
 	 */ 
@@ -51,6 +52,7 @@ public class ShoutCaller extends Job {
 	@Override
 	public void doJob() {
 		RSInterfaceChild gauge = Interfaces.get(PARENT_ID, CHILD_ID);
+		General.println(needsToSayStop());
 		if (gauge != null) {
 			if (needsToSayStop()) {
 				Keyboard.typeSend("STOP NIGGA");
@@ -108,8 +110,10 @@ public class ShoutCaller extends Job {
 	private boolean needsToSayStop() {
 		for(Point p : HEATED_AREA_POINTS) {
 			Color colorP = Screen.getColorAt(p);
-			if(colorP != null && org.tribot.api.Screen.coloursMatch(colorP, SPINNER_COLOR, SPINNER_TOLERANCE))
+			if(colorP != null && org.tribot.api.Screen.coloursMatch(colorP, SPINNER_COLOR, SPINNER_TOLERANCE)) {
+				General.println("s" + Screen.getColorAt(p));
 				return true;
+			}
 		}
 		return false;
 	}

@@ -86,34 +86,33 @@ public class BlastFurnace
     public void passArguments(HashMap<String, String> arg0) {
         String input = arg0.get("custom_input");
         if (input != null) {
-            switch (input) {
-                case "Fueler":
+        
+              if(input.contains("Fueler")) {
                     JobManager.addJob(new Fueler());
-                    break;
-                case "Pedaler":
+     
+              } else if(input.contains("Pedaler")) {
                     JobManager.addJob(new Pedaler());
-                    break;
-                case "PipeRepairer":
+               
+              } else if(input.contains("PipeRepairer")) {
                     JobManager.addJob(new PipeRepairer());
-                    break;
-                case "CashMoney":
+      
+              } else if(input.contains("CashMoney")) {
                     Bar barType = Get.getBar(input.split(":")[1]);
                     JobManager.addJob(new CashMoney(barType));
-                    break;
-                case "ShoutCaller":
+                   
+              } else if(input.contains("ShoutCaller")) {
                     JobManager.addJob(new ShoutCaller());
-                    break;
-                case "Cooler":
+                    
+              } else if(input.contains("Cooler")) {
                     JobManager.addJob(new Cooler());
-                    break;
-                case "Pumper":
+             
+              } else if(input.contains("Pumper")) {
                     Statics.shoutCallerName = input.split(":")[1];
                     JobManager.addJob(new Pumper());
-                default:
-                    break;
+              }
             }
         }
-    }
+    
 
     @Override
     public void clanMessageReceived(String arg0, String arg1) {
