@@ -75,11 +75,12 @@ public class BlastFurnace
             opacity += .05f;
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        ((Graphics2D) g1).setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+        g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
         g2.setColor(new Color(0, 0, 0, 220));
         g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
         g2.setColor(new Color(255, 255, 255, 220));
         g2.drawString("The swag furnace v1.0", 17, 365);
+        g2.drawString("boolean: " + Statics.startPumping, 17, 380);
     }
 
     @Override
