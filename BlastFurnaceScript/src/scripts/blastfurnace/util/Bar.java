@@ -28,7 +28,7 @@ public enum Bar {
         return this.childIndex;
     }
     
-    private int[] getOres() {
+    public int[] getOres() {
         return this.ores;
     }
     
