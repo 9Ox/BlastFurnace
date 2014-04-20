@@ -27,10 +27,10 @@ public class ShoutCaller extends Job {
 	private final int PARENT_ID = 30;
 	private final int CHILD_ID = 3;
 	private final RSTile GAUGE_TILE = new RSTile(1945,4961,0);
-	private final Color SPINNER_COLOR = new Color(20, 16, 16);
+	private final Color SPINNER_COLOR = new Color(20, 17, 17);
 	/**
 	 * Heated area is approximately after half of green and stops between half of red.
-	 */
+	 */ 
 	private final int[] xPoly = {175, 203, 245, 249, 239, 215, 194};
 	private final int[] yPoly = {205, 195, 173, 154, 147, 130, 110};
 
