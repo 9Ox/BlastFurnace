@@ -23,7 +23,9 @@ public class Pumper extends Job {
     private final int PUMPING_ANIMATION = 2432;
     private final int TEMPEATURE_SETTING = -1;
     private final RSTile STOP_TILE = new RSTile(1952, 4961, 0);
-    public static String shoutCallerName = "";
+    
+    public Pumper() {
+    }
 
     @Override
     public boolean shouldDo() {
