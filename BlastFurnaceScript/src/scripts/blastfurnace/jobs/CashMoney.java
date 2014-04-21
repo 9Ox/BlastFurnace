@@ -54,7 +54,7 @@ public class CashMoney extends Job {
 
 	@Override
 	public boolean shouldDo() {
-		//General.println(getPrimaryOreAmount());
+		
 		return needsToToggleRun() || getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
 				|| Inventory.getCount(barName) > 0 || Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1;
 	}
@@ -113,9 +113,10 @@ public class CashMoney extends Job {
 	/**
 	 * Checks whether you need to toggle run
 	 * @return Returns true if you need to toggle run, else false
-	 */
+	 */ 
 	private boolean needsToToggleRun() {
-		return Game.getRunEnergy() > 10 && !Game.isRunOn();
+		String uptext = Game.getUptext();
+		return Game.getRunEnergy() > 10 && !Game.isRunOn() && uptext != null && !uptext.contains("->") && barType.getInterface() == null;
 	}
 
 	/**
