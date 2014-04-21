@@ -6,6 +6,7 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Combat;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
@@ -75,7 +76,7 @@ public class Pumper extends Job {
                     if (pump.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
                         Camera.turnToTile(pump);
                     } else {
-                        Walking.walkTo(pump.getPosition());
+                        Walking.walkScreenPath(PathFinding.generatePath(Player.getPosition(), pump.getPosition(), true));
                     }
                 }
             }
