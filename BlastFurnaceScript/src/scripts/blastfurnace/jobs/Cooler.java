@@ -1,6 +1,7 @@
 package scripts.blastfurnace.jobs;
 
 import org.tribot.api.Clicking;
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
@@ -51,7 +52,7 @@ public class Cooler extends Job {
      * @return Returns true if it needs to be cooled; false if not.
      */
     private boolean needsToCoolBar() {
-        return ((Game.getSetting(DISPENSER_SETTING_INDEX) >> 8) & 0x1) == 0;
+        return (Game.getSetting(DISPENSER_SETTING_INDEX)) == 512;
     }
 
     /**

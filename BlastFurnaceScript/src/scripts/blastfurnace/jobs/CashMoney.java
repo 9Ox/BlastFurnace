@@ -29,7 +29,7 @@ public class CashMoney extends Job {
     private final String barName;
     private final int MAX_PRIMARY_AMOUNT = 27;
 
-    private final int MAX_SECONDARY_AMOUNT = 216;
+    private final int MAX_SECONDARY_AMOUNT = 200;
     private final RSTile[] PATH_TO_FURNACE = { new RSTile(1946, 4959, 0), new RSTile(1941, 4960, 0), new RSTile(1938, 4962, 0), new RSTile(1937, 4966, 0), new RSTile(1939, 4967, 0) };
     private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
 
@@ -48,7 +48,7 @@ public class CashMoney extends Job {
 
     @Override
     public boolean shouldDo() {
-        return getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() != MAX_PRIMARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
+        return getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
                 || Inventory.getCount(barName) > 0;
     }
 
@@ -60,13 +60,14 @@ public class CashMoney extends Job {
             cooler.doJob(); // dat laze
         } else if (barType.getAmountStored() > 0) {
             collectBars();
-        } else if (barType.requiresSeconary() && getSecondaryOreAmount() != MAX_SECONDARY_AMOUNT) {
+        } else if (barType.requiresSeconary() && getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT) {
             if (Inventory.getCount(barType.getOres()[1]) == 0) {
                 getOres(barType.getOres()[1]);
             } else {
                 putOresIn(barType.getOres()[1]);
             }
         } else if (getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT) {
+        	General.println(getPrimaryOreAmount());
             if (Inventory.getCount(barType.getOres()[0]) == 0) {
                 getOres(barType.getOres()[0]);
             } else {
@@ -180,7 +181,6 @@ public class CashMoney extends Job {
                         } else {
                             Walking.walkPath(false, PATH_TO_FURNACE);
                             Camera.setCameraAngle(100);
-                            Camera.setCameraRotation(General.random(240, 270));
                         }
                     }
                 }
