@@ -118,6 +118,7 @@ public class BlastFurnace
                 Bar barType = Get.getBar(input.split(":")[1]);
                 CashMoney money = new CashMoney(barType);
                 observer.addListener(money);
+                observer.start();
                 JobManager.addJob(money);
                 Statics.jobName = "Cash Money";
             } else if (input.contains("ShoutCaller")) {

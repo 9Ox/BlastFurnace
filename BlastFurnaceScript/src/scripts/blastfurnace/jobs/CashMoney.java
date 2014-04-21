@@ -2,6 +2,7 @@ package scripts.blastfurnace.jobs;
 
 import java.util.Arrays;
 import org.tribot.api.Clicking;
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
