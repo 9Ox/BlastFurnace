@@ -80,40 +80,46 @@ public class BlastFurnace
         g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
         g2.setColor(new Color(255, 255, 255, 220));
         g2.drawString("The swag furnace v1.0", 17, 365);
-        g2.drawString("boolean: " + Statics.startPumping, 17, 380);
+        g2.drawString("Job: " + Statics.jobName, 17, 380);
+        if (!Statics.bar.isEmpty()) {
+            g2.drawString("Bar: " + Statics.bar, 17, 395);
+        }
+        if (!Statics.shoutCallerName.isEmpty()) {
+            g2.drawString("Caller name: " + Statics.shoutCallerName, 17, 395);
+        }
     }
 
     @Override
     public void passArguments(HashMap<String, String> arg0) {
         String input = arg0.get("custom_input");
         if (input != null) {
-        
-              if(input.contains("Fueler")) {
-                    JobManager.addJob(new Fueler());
-     
-              } else if(input.contains("Pedaler")) {
-                    JobManager.addJob(new Pedaler());
-               
-              } else if(input.contains("PipeRepairer")) {
-                    JobManager.addJob(new PipeRepairer());
-      
-              } else if(input.contains("CashMoney")) {
-                    Bar barType = Get.getBar(input.split(":")[1]);
-                    JobManager.addJob(new CashMoney(barType));
-                   
-              } else if(input.contains("ShoutCaller")) {
-                    JobManager.addJob(new ShoutCaller());
-                    
-              } else if(input.contains("Cooler")) {
-                    JobManager.addJob(new Cooler());
-             
-              } else if(input.contains("Pumper")) {
-                    Statics.shoutCallerName = input.split(":")[1];
-                    JobManager.addJob(new Pumper());
-              }
+            if (input.contains("Fueler")) {
+                JobManager.addJob(new Fueler());
+                Statics.jobName = "Fueler";
+            } else if (input.contains("Pedaler")) {
+                JobManager.addJob(new Pedaler());
+                Statics.jobName = "Pedeler";
+            } else if (input.contains("PipeRepairer")) {
+                JobManager.addJob(new PipeRepairer());
+                Statics.jobName = "Pipe Repairer";
+            } else if (input.contains("CashMoney")) {
+                Bar barType = Get.getBar(input.split(":")[1]);
+                JobManager.addJob(new CashMoney(barType));
+                Statics.jobName = "Cash Money";
+                Statics.bar = barType.name();
+            } else if (input.contains("ShoutCaller")) {
+                JobManager.addJob(new ShoutCaller());
+                Statics.jobName = "Shout Caller";
+            } else if (input.contains("Cooler")) {
+                JobManager.addJob(new Cooler());
+                Statics.jobName = "Cooler";
+            } else if (input.contains("Pumper")) {
+                Statics.shoutCallerName = input.split(":")[1];
+                JobManager.addJob(new Pumper());
+                Statics.jobName = "Pumper";
             }
         }
-    
+    }
 
     @Override
     public void clanMessageReceived(String arg0, String arg1) {
