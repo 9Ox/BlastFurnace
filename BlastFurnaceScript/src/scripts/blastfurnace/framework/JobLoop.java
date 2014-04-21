@@ -58,7 +58,7 @@ public class JobLoop {
                 }
             } else {
                 JobManager.runJobs();
-                if (General.random(0, 50) == 0) {
+                if (General.random(0, 1000) == 0) {
                     boolean neg = General.random(0, 1) == 0;
                     Camera.setCameraRotation(Camera.getCameraRotation() + (neg ? Camera.getCameraRotation() - General.random(10, 90) : 
                             Camera.getCameraRotation() + General.random(10, 90)));
