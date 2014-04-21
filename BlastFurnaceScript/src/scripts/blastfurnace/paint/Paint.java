@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.LinkedList;
+import java.util.Locale;
 import javax.imageio.ImageIO;
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
@@ -31,6 +33,26 @@ public class Paint {
             General.println("Failed to retreive image from: " + url);
             return null;
         }
+    }
+    
+    /**
+     * Gets the per hour value for the specified value.
+     *
+     * @param value The value to evaluate.
+     * @param startTime The time in ms when the script started.
+     * @return The per hour value.
+     */
+    public static String getPerHour(final int value, final long startTime) {
+        return commas((int)((long) (value * 3600000D / (System.currentTimeMillis() - startTime))));
+    }
+    
+    /**
+     * Inserts commas (US LOCALE) into the passed in int.
+     * @param i The int to insert commas into.
+     * @return The String created by inserting commas into the passed in int.
+     */
+    public static String commas(final int i) {
+        return NumberFormat.getNumberInstance(Locale.US).format((long) i);
     }
     
     private static class MousePathPoint extends Point {
