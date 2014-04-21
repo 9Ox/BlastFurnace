@@ -124,7 +124,7 @@ public class CashMoney extends Job implements InventoryListener {
 	 */
 	private boolean needsToToggleRun() {
 		String uptext = Game.getUptext();
-		return Game.getRunEnergy() > 10 && !Game.isRunOn() && uptext != null && !uptext.contains("->") && barType.getInterface() == null;
+		return Game.getRunEnergy() > 10 && !Game.isRunOn() && uptext != null && !uptext.contains("->") && barType.getInterface() == null && !Banking.isBankScreenOpen();
 	}
 
 	/**
