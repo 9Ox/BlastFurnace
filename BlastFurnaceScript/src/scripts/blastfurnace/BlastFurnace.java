@@ -123,7 +123,9 @@ public class BlastFurnace
 
     @Override
     public void clanMessageReceived(String arg0, String arg1) {
-
+        if (!Statics.shoutCallerName.isEmpty() && Statics.shoutCallerName.equalsIgnoreCase(arg0)) {
+            Statics.startPumping = !arg1.equalsIgnoreCase("stop");
+        }
     }
 
     @Override
@@ -133,9 +135,6 @@ public class BlastFurnace
 
     @Override
     public void playerMessageReceived(String arg0, String arg1) {
-        if (!Statics.shoutCallerName.isEmpty() && Statics.shoutCallerName.equalsIgnoreCase(arg0)) {
-            Statics.startPumping = !arg1.equalsIgnoreCase("stop");
-        }
     }
 
     @Override
