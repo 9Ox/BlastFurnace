@@ -2,7 +2,6 @@ package scripts.blastfurnace.jobs;
 
 import java.util.Arrays;
 
-import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
@@ -28,9 +27,8 @@ public class CashMoney extends Job {
     private final String barName;
     private final int MAX_PRIMARY_AMOUNT = 27;
 
-
     private final int MAX_SECONDARY_AMOUNT = 216;
-    private final RSTile[] PATH_TO_FURNACE = { new RSTile(1948, 4957, 0), new RSTile(1943, 4960, 0), new RSTile(1939, 4962, 0), new RSTile(1938, 4966, 0)};
+    private final RSTile[] PATH_TO_FURNACE = {new RSTile(1948, 4957, 0), new RSTile(1943, 4960, 0), new RSTile(1939, 4962, 0), new RSTile(1938, 4966, 0)};
     private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
 
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
@@ -38,7 +36,6 @@ public class CashMoney extends Job {
     private final RSTile CONVEYOR_BELT_TILE = new RSTile(1943, 4967, 0);
     private final Cooler cooler;
     private final Bar barType;
-    
 
     public CashMoney(Bar barType) {
         cooler = new Cooler();
@@ -74,7 +71,7 @@ public class CashMoney extends Job {
                 putOresIn(barType.getOres()[0]);
             }
         }
-        
+
     }
 
     /**
@@ -100,8 +97,8 @@ public class CashMoney extends Job {
      */
     private void collectBars() {
         RSObject dispenser = Get.getObject(BAR_DISPENSER_TILE);
-        if(Inventory.isFull()) {
-        	bankBars();
+        if (Inventory.isFull()) {
+            bankBars();
         } else if (barType.getInterface() == null) {
             if (dispenser != null) {
                 if (dispenser.isOnScreen()) {
@@ -114,25 +111,24 @@ public class CashMoney extends Job {
                         }, 3000);
                     }
                 } else {
-                	  if (dispenser.getPosition().distanceTo(Player.getPosition()) <= 4) {
-                          Camera.turnToTile(dispenser);
-                      } else {
-                          Walking.blindWalkTo(dispenser.getPosition());
-                      }
+                    if (dispenser.getPosition().distanceTo(Player.getPosition()) <= 4) {
+                        Camera.turnToTile(dispenser);
+                    } else {
+                        Walking.blindWalkTo(dispenser.getPosition());
+                    }
                 }
             }
         } else {
-        	  if (barType.clickInterface("Take")) {
-                  Timing.waitCondition(new Condition() {
-                      @Override
-                      public boolean active() {
-                          return Inventory.getCount(barName) > 0;
-                      }
-                  }, 2000);
-              }
+            if (barType.clickInterface("Take")) {
+                Timing.waitCondition(new Condition() {
+                    @Override
+                    public boolean active() {
+                        return Inventory.getCount(barName) > 0;
+                    }
+                }, 2000);
+            }
         }
     }
-
 
     /**
      * Deposits bars.
@@ -198,7 +194,7 @@ public class CashMoney extends Job {
             if (!Banking.isBankScreenOpen()) {
                 openBankChest();
             } else {
-            	Banking.depositAllExcept(Cooler.FULL_BUCKET_ID, Cooler.EMPTY_BUCKET_ID);
+                Banking.depositAllExcept(Cooler.FULL_BUCKET_ID, Cooler.EMPTY_BUCKET_ID);
                 RSItem[] ore = Banking.find(id);
                 if (ore.length > 0) {
                     if (ore[0] != null) {
@@ -235,9 +231,9 @@ public class CashMoney extends Job {
                 if (chest.getPosition().distanceTo(Player.getPosition()) <= 4) {
                     Camera.turnToTile(chest);
                 } else {
-                	  Walking.walkPath(false, PATH_TO_BANK);
+                    Walking.walkPath(false, PATH_TO_BANK);
                 }
             }
         }
-    }   
+    }
 }
