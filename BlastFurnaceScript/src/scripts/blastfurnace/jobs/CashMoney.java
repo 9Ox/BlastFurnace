@@ -27,7 +27,7 @@ import scripts.blastfurnace.util.RSUtil;
 public class CashMoney extends Job {
 
     private final String barName;
-    private final int MAX_PRIMARY_AMOUNT = 28;
+    private final int MAX_PRIMARY_AMOUNT = 27;
     private final int MAX_SECONDARY_AMOUNT = 254;
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
     private final RSTile BANK_CHEST_TILE = new RSTile(1948, 4956, 0);
@@ -185,13 +185,15 @@ public class CashMoney extends Job {
             } else {
                 RSItem[] ore = Banking.find(id);
                 if (ore.length > 0) {
-                    if (Banking.withdrawItem(ore[0], 0)) {
-                        Timing.waitCondition(new Condition() {
-                            @Override
-                            public boolean active() {
-                                return Inventory.getCount(id) > 0;
-                            }
-                        }, 3000);
+                    if (ore[0] != null) {
+                        if (Banking.withdrawItem(ore[0], MAX_PRIMARY_AMOUNT - getPrimaryOreAmount())) {
+                            Timing.waitCondition(new Condition() {
+                                @Override
+                                public boolean active() {
+                                    return Inventory.getCount(id) > 0;
+                                }
+                            }, 3000);
+                        }
                     }
                 }
             }
