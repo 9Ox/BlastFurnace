@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.tribot.api.General;
+import org.tribot.api2007.Projection;
+import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Arguments;
 import org.tribot.script.interfaces.EventBlockingOverride;
@@ -49,11 +51,13 @@ public class BlastFurnace
     private final Rectangle PAINT_RECT;
     private boolean showPaint;
     private float opacity = 1.0f;
+    private long startTime = 0;
 
     public BlastFurnace() {
         PAINT_RECT = new Rectangle(7, 345, 490, 129);
         showPaint = true;
         Statics.startWorld = WorldHop.getWorld();
+        startTime = System.currentTimeMillis();
         JobLoop.setReady(true);
     }
 
@@ -80,12 +84,17 @@ public class BlastFurnace
         g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
         g2.setColor(new Color(255, 255, 255, 220));
         g2.drawString("The swag furnace v1.0", 17, 365);
-        g2.drawString("Job: " + Statics.jobName, 17, 380);
-        if (!Statics.bar.isEmpty()) {
-            g2.drawString("Bar: " + Statics.bar, 17, 395);
-        }
-        if (!Statics.shoutCallerName.isEmpty()) {
-            g2.drawString("Caller name: " + Statics.shoutCallerName, 17, 395);
+        g2.drawString("Time running: " + getRunningTime(), 17, 380);
+        g2.drawString("Job: " + Statics.jobName, 17, 395);
+        if (Statics.jobName.contains("Cash")) {
+            g2.drawString("Bars made: " + Paint.commas(Statics.barCount) + " (" + Paint.getPerHour(Statics.barCount, startTime) + ")", 17, 410);
+            g2.setColor(new Color(0, 255, 0, 100));
+            for (RSTile t : Statics.BLAST_FURNACE_AREA.getAllTiles()) {
+                if (t != null) {
+                    Point p = Projection.tileToMinimap(t);
+                    g2.fillRect(p.x, p.y, 5, 5);
+                }
+            }
         }
     }
 
