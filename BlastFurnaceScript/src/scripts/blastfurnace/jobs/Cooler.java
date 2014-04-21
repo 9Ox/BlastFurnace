@@ -3,9 +3,11 @@ package scripts.blastfurnace.jobs;
 import org.tribot.api.Clicking;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
+import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GroundItems;
+import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSGroundItem;
@@ -13,6 +15,7 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.blastfurnace.framework.Job;
+import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
 import scripts.blastfurnace.util.Walking;
@@ -89,7 +92,9 @@ public class Cooler extends Job {
 	 */
 	private void fillBucket() {
 		RSObject sink = Get.getObject(SINK_TILE);
-		if (sink != null) {
+		if(Banking.isBankScreenOpen() || Bar.ADAMANT.getInterface() != null) {
+			Interfaces.closeAll();
+		} else if (sink != null) {
 			if (sink.isOnScreen()) {
 				String uptext = Game.getUptext();
 				if(uptext != null) {
@@ -119,7 +124,9 @@ public class Cooler extends Job {
 
 	private void coolBars() {
 		RSObject dispenser = Get.getObject(BAR_DISPENSER_TILE);
-		if (dispenser != null) {
+		if(Banking.isBankScreenOpen()) {
+			Banking.close();
+		} else if (dispenser != null) {
 			if (dispenser.isOnScreen()) {
 				String uptext = Game.getUptext();
 				if(uptext != null) {
@@ -128,7 +135,7 @@ public class Cooler extends Job {
 							Timing.waitCondition(new Condition() {
 								@Override
 								public boolean active() {
-									return false; //check if bars cooled
+									return !needsToCoolBar();
 								}
 							}, 3000);
 					} else {

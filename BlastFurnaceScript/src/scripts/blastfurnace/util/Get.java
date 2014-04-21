@@ -5,10 +5,13 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import org.tribot.api.types.generic.Filter;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.Players;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
+import org.tribot.api2007.types.RSPlayer;
 import org.tribot.api2007.types.RSTile;
 
 /**
@@ -35,6 +38,23 @@ public class Get {
 		RSObject[] objs = Objects.getAt(tile);
 		return objs.length > 0 ? objs[0] : null;
 	}
+	
+	/**
+	 * Returns the nearest Player on the specified tile
+	 * @param tile the RSTile the Player is at
+	 * @return The nearest Player found on the tile; null if none were found.
+	 */
+	public static RSPlayer getPlayer(final RSTile tile) {
+		RSPlayer[] players = Players.findNearest(new Filter<RSPlayer>() {
+			@Override
+			public boolean accept(RSPlayer arg0) {
+				// TODO Auto-generated method stub
+				return arg0.getPosition().equals(tile);
+			}
+		});
+		return players.length > 0 ? players[0] : null;
+	}
+
 
 	/** 
 	 * Returns the Bar from the specified String.

@@ -23,13 +23,13 @@ public class Pumper extends Job {
     private final int TEMPEATURE_SETTING = -1;
     private final RSTile STOP_TILE = new RSTile(1952, 4961, 0);
     private final RSTile PUMP_TILE = new RSTile(1950, 4961, 0);
-
+    private final RSTile SHOUT_CALLER_TILE = new RSTile(1945,4960,0);
     public Pumper() {
     }
 
     @Override
     public boolean shouldDo() {
-        return Statics.startPumping && Player.getAnimation() != PUMPING_ANIMATION || !Statics.startPumping && Player.getAnimation() == PUMPING_ANIMATION || 
+        return Get.getPlayer(SHOUT_CALLER_TILE) == null || Statics.startPumping && Player.getAnimation() != PUMPING_ANIMATION || !Statics.startPumping && Player.getAnimation() == PUMPING_ANIMATION || 
                 Combat.getHPRatio() <= 70 || !RSUtil.isInCC();
     }
 
@@ -38,12 +38,13 @@ public class Pumper extends Job {
         int playerAnimation = Player.getAnimation();
         if (!RSUtil.isInCC()) {
             RSUtil.joinCC(Statics.shoutCallerName);
-        } else if (Statics.startPumping && playerAnimation == PUMPING_ANIMATION) {
-            General.sleep(10, 20); // condtional sleep maybe later
-        } else if (!Statics.startPumping && playerAnimation == PUMPING_ANIMATION || Combat.getHPRatio() <= 70) {
+        } else if (!Statics.startPumping && playerAnimation == PUMPING_ANIMATION || Combat.getHPRatio() <= 70 || Get.getPlayer(SHOUT_CALLER_TILE) == null) {
             if (Player.getPosition().distanceTo(STOP_TILE) != 0) {
                 Walking.walkPath(true, STOP_TILE);
-            }
+            } 
+        } else if (Statics.startPumping && playerAnimation == PUMPING_ANIMATION) {
+            General.sleep(10, 20); // condtional sleep maybe later
+      
         } else {
             operatePump();
         }

@@ -2,8 +2,12 @@ package scripts.blastfurnace.jobs;
 
 import java.util.Arrays;
 
+
+
+
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
@@ -11,6 +15,7 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCChat;
+import org.tribot.api2007.Options;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
@@ -28,8 +33,8 @@ import scripts.blastfurnace.util.Walking;
 public class CashMoney extends Job {
 
 	private final String barName;
+	private final int STARTING_SECONDARY_AMOUNT = 27;
 	private final int MAX_PRIMARY_AMOUNT = 27;
-
 	private final int MAX_SECONDARY_AMOUNT = 200;
 	private final RSTile[] PATH_TO_FURNACE = { new RSTile(1946, 4959, 0), new RSTile(1941, 4960, 0), new RSTile(1938, 4962, 0), new RSTile(1937, 4966, 0), new RSTile(1939, 4967, 0) };
 	private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
@@ -50,33 +55,54 @@ public class CashMoney extends Job {
 	@Override
 	public boolean shouldDo() {
 
-		return getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
-				|| Inventory.getCount(barName) > 0;
+		return needsToToggleRun() || getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
+				|| Inventory.getCount(barName) > 0 || Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1;
 	}
 
 	@Override
 	public void doJob() {
-
-		if (Inventory.getCount(barName) > 0) {
+		if(needsToToggleRun())
+			Options.setRunOn(true);
+		
+		if (Inventory.getCount(barName) > 0 && !cooler.shouldDo()) {
 			bankBars();
 		} else if (isBarsCooled() && barType.getAmountStored() > 0) {
 			collectBars();
 		} else if (cooler.shouldDo()) {
 			cooler.doJob(); // dat laze
+		
+		} else if (barType.requiresSeconary() && getSecondaryOreAmount() < STARTING_SECONDARY_AMOUNT) {
+			if (Inventory.getCount(barType.getOres()[1]) == 0) {
+				getOres(barType.getOres()[1]);
+			} else {
+				putOresIn(barType.getOres()[1]);
+			}
+			
+		} else if (getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT) {
+			if (Inventory.getCount(barType.getOres()[0]) == 0) {
+				getOres(barType.getOres()[0]);
+			} else {
+				putOresIn(barType.getOres()[0]);
+			}
+			
 		} else if (barType.requiresSeconary() && getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT) {
 			if (Inventory.getCount(barType.getOres()[1]) == 0) {
 				getOres(barType.getOres()[1]);
 			} else {
 				putOresIn(barType.getOres()[1]);
 			}
-		} else if (getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT) {
-
-			if (Inventory.getCount(barType.getOres()[0]) == 0) {
-				getOres(barType.getOres()[0]);
-			} else {
-				putOresIn(barType.getOres()[0]);
-			}
+			
+		} else if(Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1) {
+			Walking.blindWalkTo(BAR_DISPENSER_TILE);
 		}
+	}
+
+	/**
+	 * Checks whether you need to toggle run
+	 * @return Returns true if you need to toggle run, else false
+	 */
+	private boolean needsToToggleRun() {
+		return Game.getRunEnergy() > 10 && !Game.isRunOn();
 	}
 
 	/**
@@ -115,7 +141,9 @@ public class CashMoney extends Job {
 		} else if (barType.getInterface() == null) {
 			if (dispenser != null) {
 				if (dispenser.isOnScreen()) {
-					if (RSUtil.clickRSObject("Take", dispenser)) {
+					if(Game.getUptext().contains("->")) {
+						Mouse.click(1);
+					} else if (RSUtil.clickRSObject("Take", dispenser)) {
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -174,6 +202,8 @@ public class CashMoney extends Job {
 				if (belt.isOnScreen()) {
 					if (Banking.isBankScreenOpen()) {
 						Banking.close();
+					} else if(Game.getUptext().contains("->")) {
+						Mouse.click(1);
 					} else if (RSUtil.clickRSObject("Put-ore-on", belt)) {
 						Timing.waitCondition(new Condition() {
 
@@ -234,6 +264,8 @@ public class CashMoney extends Job {
 			if (chest.isOnScreen()) {
 				if(barType.getInterface() != null) {
 					Interfaces.closeAll();
+				} else if(Game.getUptext().contains("->")) {
+					Mouse.click(1);
 				} else if (RSUtil.clickRSObject("Use Bank chest", chest)) {
 					Timing.waitCondition(new Condition() {
 						@Override
