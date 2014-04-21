@@ -5,17 +5,15 @@ import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Combat;
-import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
-import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
-
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
 import scripts.blastfurnace.util.Statics;
+import scripts.blastfurnace.util.Walking;
 
 /**
  * @author Starfox, erickho123
@@ -42,7 +40,7 @@ public class Pumper extends Job {
         if (Statics.startPumping && playerAnimation == PUMPING_ANIMATION) {
             General.sleep(10, 20); // condtional sleep maybe later
         } else if (!Statics.startPumping && playerAnimation == PUMPING_ANIMATION || Combat.getHPRatio() <= 70) {
-            Walking.walkTo(STOP_TILE);
+            Walking.walkPath(true, STOP_TILE);
         } else {
             operatePump();
         }
@@ -76,7 +74,7 @@ public class Pumper extends Job {
                     if (pump.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
                         Camera.turnToTile(pump);
                     } else {
-                        Walking.walkScreenPath(PathFinding.generatePath(Player.getPosition(), pump.getPosition(), true));
+                        Walking.walkPath(false, PathFinding.generatePath(Player.getPosition(), pump.getPosition(), true));
                     }
                 }
             }
