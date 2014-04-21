@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
@@ -59,6 +60,7 @@ public class BlastFurnace
         showPaint = true;
         Statics.startWorld = WorldHop.getWorld();
         startTime = System.currentTimeMillis();
+        Mouse.setSpeed(125);
         JobLoop.setReady(true);
     }
 
