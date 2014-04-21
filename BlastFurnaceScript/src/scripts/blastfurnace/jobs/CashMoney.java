@@ -2,6 +2,7 @@ package scripts.blastfurnace.jobs;
 
 import java.util.Arrays;
 
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
@@ -13,6 +14,7 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
+
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
@@ -28,7 +30,7 @@ public class CashMoney extends Job {
     private final int MAX_PRIMARY_AMOUNT = 27;
 
     private final int MAX_SECONDARY_AMOUNT = 216;
-    private final RSTile[] PATH_TO_FURNACE = {new RSTile(1948, 4957, 0), new RSTile(1943, 4960, 0), new RSTile(1939, 4962, 0), new RSTile(1938, 4966, 0)};
+    private final RSTile[] PATH_TO_FURNACE = { new RSTile(1946, 4959, 0), new RSTile(1941, 4960, 0), new RSTile(1938, 4962, 0), new RSTile(1937, 4966, 0), new RSTile(1939, 4967, 0) };
     private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
 
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
@@ -177,6 +179,8 @@ public class CashMoney extends Job {
                             Camera.turnToTile(belt);
                         } else {
                             Walking.walkPath(false, PATH_TO_FURNACE);
+                            Camera.setCameraAngle(100);
+                            Camera.setCameraRotation(General.random(240, 270));
                         }
                     }
                 }
