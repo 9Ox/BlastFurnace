@@ -148,7 +148,7 @@ public class Walking {
     public static boolean walkPath(boolean screenWalk, RSTile... path) {
         if (canWalkPath(screenWalk, path)) {
             RSTile nextTile = getNextTile(screenWalk, path);
-            return walkTo(nextTile);
+            return nextTile != null && screenWalk ? org.tribot.api2007.Walking.walkScreenPath(new RSTile[] {nextTile}) : Walking.walkTo(nextTile);
         } else {
             RSTile closestTile = getClosestTile(path);
             if (closestTile != null && Player.getPosition().distanceTo(closestTile) <= 30) {

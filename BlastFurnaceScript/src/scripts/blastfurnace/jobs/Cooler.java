@@ -7,6 +7,7 @@ import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSGroundItem;
@@ -27,7 +28,7 @@ public class Cooler extends Job {
 	public static final int FULL_BUCKET_ID = 1929;
 	private final RSTile SINK_TILE = new RSTile(1942,4956,0);
 	private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
-	private final int DISPENSER_SETTING_INDEX = -1;
+	private final int DISPENSER_SETTING_INDEX = 543;
 	@Override
 	public boolean shouldDo() {
 		return needsToCoolBar() || ((Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
@@ -45,9 +46,12 @@ public class Cooler extends Job {
 		}
 	}
 
-
+	/**
+	 * Checks if the dispesner needs to be cooled or not
+	 * @return Returns true if it needs to be cooled; false if not.
+	 */
 	private boolean needsToCoolBar() {
-		return Game.getSetting(DISPENSER_SETTING_INDEX) == 1;
+		return ((Game.getSetting(DISPENSER_SETTING_INDEX) >> 8) & 0x1) == 0;
 	}
 
 	/**
@@ -124,7 +128,7 @@ public class Cooler extends Job {
 				if (dispenser.getPosition().distanceTo(Player.getRSPlayer()) <= 4) {
 					Camera.turnToTile(dispenser);
 				} else {
-					Walking.walkPath(false, PathFinding.generatePath(Player.getPosition(), dispenser, true));
+					Walking.blindWalkTo(dispenser.getPosition());
 				}
 			}
 		}

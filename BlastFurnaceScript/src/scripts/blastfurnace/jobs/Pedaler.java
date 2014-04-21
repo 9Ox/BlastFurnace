@@ -22,7 +22,7 @@ import scripts.blastfurnace.util.Walking;
 public class Pedaler extends Job {
 
 	private final int PEDALING_ANIMATION = 2433;
-	private final String[] ORE_NAMES = {"Iron ore", "Coal ore", "Adamantite ore", "Runite ore"};
+	private final String[] ORE_NAMES = {"Iron ore", "Coal", "Adamantite ore", "Runite ore"};
 	private final RSTile WALK_TILE = new RSTile(1949, 4966, 0);
 	private final RSTile PEDALS_TILE = new RSTile(1947,4966,0);
 	@Override
