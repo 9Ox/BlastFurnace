@@ -63,18 +63,19 @@ public class CashMoney extends Job {
 	public void doJob() {
 		if(needsToToggleRun())
 			Options.setRunOn(true);
-		
-		if(getPrimaryOreAmount() == MAX_PRIMARY_AMOUNT && !isBarsCooled()) // after depositong primary ores, waits for it to be cooled
+
+		if(getPrimaryOreAmount() == MAX_PRIMARY_AMOUNT && !cooler.shouldDo()) { // after depositong primary ores, waits for it to be cooled
 			if(Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1)
 				Walking.blindWalkTo(BAR_DISPENSER_TILE);
 			Timing.waitCondition(new Condition() {
 				@Override
 				public boolean active() {
 					// TODO Auto-generated method stub
-					return  isBarsCooled();
+					return  cooler.shouldDo();
 				}
 			}, 20000);
-		
+		}
+
 		if (Inventory.getCount(barName) > 0 && !cooler.shouldDo()) {
 			bankBars();
 		} else if (isBarsCooled() && barType.getAmountStored() > 0) {
@@ -96,7 +97,7 @@ public class CashMoney extends Job {
 				putOresIn(barType.getOres()[0]);
 			}
 
-			
+
 		} else if (barType.requiresSeconary() && getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT) {
 			if (Inventory.getCount(barType.getOres()[1]) == 0) {
 				getOres(barType.getOres()[1]);
