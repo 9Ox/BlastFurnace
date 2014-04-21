@@ -93,13 +93,15 @@ public class Cooler extends Job {
         if (sink != null) {
             if (sink.isOnScreen()) {
                 if (Clicking.click("Use", Inventory.find(EMPTY_BUCKET_ID))) {
-                    if (RSUtil.clickRSObject("Use", sink)) {
-                        Timing.waitCondition(new Condition() {
-                            @Override
-                            public boolean active() {
-                                return Inventory.getCount(FULL_BUCKET_ID) > 0;
-                            }
-                        }, 4000);
+                    if (Game.getUptext().contains("Use Bucket ->")) {
+                        if (RSUtil.clickRSObject("Use Bucket -> Sink", sink)) {
+                            Timing.waitCondition(new Condition() {
+                                @Override
+                                public boolean active() {
+                                    return Inventory.getCount(FULL_BUCKET_ID) > 0;
+                                }
+                            }, 4000);
+                        }
                     }
                 }
             } else {
@@ -117,13 +119,15 @@ public class Cooler extends Job {
         if (dispenser != null) {
             if (dispenser.isOnScreen()) {
                 if (Clicking.click("Use", Inventory.find(FULL_BUCKET_ID))) {
-                    if (dispenser.click("Use")) {
-                        Timing.waitCondition(new Condition() {
-                            @Override
-                            public boolean active() {
-                                return false; //check if bars cooled
-                            }
-                        }, 3000);
+                    if (Game.getUptext().contains("Use Bucket of water ->")) {
+                        if (dispenser.click("Use Bucket of water -> Bar dispenser")) {
+                            Timing.waitCondition(new Condition() {
+                                @Override
+                                public boolean active() {
+                                    return false; //check if bars cooled
+                                }
+                            }, 3000);
+                        }
                     }
                 }
             } else {
