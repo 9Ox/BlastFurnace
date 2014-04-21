@@ -4,6 +4,7 @@ import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
+import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSNPC;
@@ -33,6 +34,7 @@ public class Pedaler extends Job {
 
     @Override
     public void doJob() {
+    	Interfaces.closeAll();
         RSNPC[] ores = NPCs.findNearest(ORE_NAMES);
         int playerAniamtion = Player.getAnimation();
         if (ores.length == 0 && playerAniamtion == PEDALING_ANIMATION) {

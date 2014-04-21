@@ -5,9 +5,11 @@ import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Combat;
+import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
+
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
@@ -35,6 +37,7 @@ public class Pumper extends Job {
 
     @Override
     public void doJob() {
+    	Interfaces.closeAll();
         int playerAnimation = Player.getAnimation();
         if (!RSUtil.isInCC()) {
             RSUtil.joinCC(Statics.shoutCallerName);
