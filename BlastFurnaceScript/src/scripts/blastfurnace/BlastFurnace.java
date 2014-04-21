@@ -35,6 +35,7 @@ import scripts.blastfurnace.jobs.ShoutCaller;
 import scripts.blastfurnace.paint.Paint;
 import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
+import scripts.blastfurnace.util.Observer;
 import scripts.blastfurnace.util.Statics;
 import scripts.blastfurnace.util.WorldHop;
 
@@ -53,12 +54,14 @@ public class BlastFurnace
     private boolean showPaint;
     private float opacity = 1.0f;
     private long startTime = 0;
+    private final Observer observer;
 
     public BlastFurnace() {
         PAINT_RECT = new Rectangle(7, 345, 490, 129);
         showPaint = true;
         Statics.startWorld = WorldHop.getWorld();
         startTime = System.currentTimeMillis();
+        observer = new Observer();
         JobLoop.setReady(true);
     }
 
@@ -114,9 +117,10 @@ public class BlastFurnace
                 Statics.jobName = "Pipe Repairer";
             } else if (input.contains("CashMoney")) {
                 Bar barType = Get.getBar(input.split(":")[1]);
-                JobManager.addJob(new CashMoney(barType));
+                CashMoney money = new CashMoney(barType);
+                observer.addListener(money);
+                JobManager.addJob(money);
                 Statics.jobName = "Cash Money";
-                Statics.bar = barType.name();
             } else if (input.contains("ShoutCaller")) {
                 JobManager.addJob(new ShoutCaller());
                 Statics.jobName = "Shout Caller";
