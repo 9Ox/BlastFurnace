@@ -18,6 +18,7 @@ import org.tribot.api2007.types.RSInterfaceChild;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.blastfurnace.BlastFurnace;
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.GeneralUtil;
 import scripts.blastfurnace.util.Get;
@@ -29,13 +30,13 @@ public class ShoutCaller extends Job {
 	private final int PARENT_ID = 30;
 	private final int CHILD_ID = 3;
 	private final RSTile GAUGE_TILE = new RSTile(1945,4961,0);
-	private final Color SPINNER_COLOR = new Color(20, 17, 17);
-	private final Tolerance SPINNER_TOLERANCE = new Tolerance(1);
+	private final Color SPINNER_COLOR = new Color(22, 18, 18);
+	private final Tolerance SPINNER_TOLERANCE = new Tolerance(5);
 	/**
 	 * Heated area is approximately after half of green and stops between half of red.
 	 */ 
-	private final int[] xPoly = {175, 203, 245, 249, 239, 215, 194};
-	private final int[] yPoly = {205, 195, 173, 154, 147, 130, 110};
+	private final int[] xPoly = {178, 209, 228, 249, 247, 246, 244};
+	private final int[] yPoly = {135, 150, 157, 164, 120, 102, 86};
 
 	private final Polygon HEATED_AREA = new Polygon(xPoly, yPoly, xPoly.length);
 	private ArrayList<Point> HEATED_AREA_POINTS;
@@ -52,16 +53,18 @@ public class ShoutCaller extends Job {
 	@Override
 	public void doJob() {
 		RSInterfaceChild gauge = Interfaces.get(PARENT_ID, CHILD_ID);
-		General.println(needsToSayStop());
+	
 		if (gauge != null) {
 			if (needsToSayStop()) {
 				Keyboard.typeSend("Stop");
-				Timing.waitCondition(new Condition() {
+				if(Timing.waitCondition(new Condition() {
 					@Override
 					public boolean active() {
 						return !needsToSayStop();
 					}
-				}, 20000);
+				}, 20000)) {
+					General.sleep(9000,10000);
+				}
 			} else if (!needsToSayStop()) {
 				Keyboard.typeSend("Start");
 				Timing.waitCondition(new Condition() {
@@ -69,7 +72,7 @@ public class ShoutCaller extends Job {
 					public boolean active() {
 						return needsToSayStop();
 					}
-				}, 20000);
+				}, 40000);
 			}
 		} else {
 			clickGauge();
@@ -103,18 +106,21 @@ public class ShoutCaller extends Job {
 
 
 	/**
-	 * Checks the area on the screen for the pointer
+	 * Checks the area on the screen for the pointer by the color and how many detected of the color
 	 *
 	 * @return true if the marker is in the red or green area
 	 */
 	private boolean needsToSayStop() {
+		int count = 0;
 		for(Point p : HEATED_AREA_POINTS) {
 			Color colorP = Screen.getColorAt(p);
 			if(colorP != null && org.tribot.api.Screen.coloursMatch(colorP, SPINNER_COLOR, SPINNER_TOLERANCE)) {
-				General.println("s" + Screen.getColorAt(p));
-				return true;
+				count++;
 			}
+		
 		}
+		if(count > 90)
+			return true;
 		return false;
 	}
 
