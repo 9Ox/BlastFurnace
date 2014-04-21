@@ -1,7 +1,7 @@
 package scripts.blastfurnace.jobs;
 
 import java.util.Arrays;
-
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
@@ -15,7 +15,6 @@ import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
-
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
@@ -165,6 +164,7 @@ public class CashMoney extends Job {
                         if (belt.getPosition().distanceTo(Player.getPosition()) <= 4) {
                             Camera.turnToTile(belt);
                         } else {
+                            General.println("wtf");
                             Walking.walkPath(PathFinding.generatePath(Player.getPosition(), belt, true));
                         }
                     }
