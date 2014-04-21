@@ -30,8 +30,8 @@ public class Cooler extends Job {
 	private final int DISPENSER_SETTING_INDEX = -1;
 	@Override
 	public boolean shouldDo() {
-		return needsToCoolBar() && ((Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
-				|| Inventory.getCount(EMPTY_BUCKET_ID) > 0) /*check bars not cooled*/;
+		return needsToCoolBar() || ((Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)
+				|| Inventory.getCount(EMPTY_BUCKET_ID) > 0);
 	}
 
 	@Override
