@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
-
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
@@ -16,8 +15,8 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.types.RSInterfaceChild;
 import org.tribot.api2007.types.RSObject;
+import org.tribot.api2007.types.RSPlayer;
 import org.tribot.api2007.types.RSTile;
-
 import scripts.blastfurnace.framework.Job;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
@@ -51,29 +50,38 @@ public class ShoutCaller extends Job {
     @Override
     public void doJob() {
         RSInterfaceChild gauge = Interfaces.get(PARENT_ID, CHILD_ID);
-
-        if (gauge != null) {
-            if (needsToSayStop()) {
-                Keyboard.typeSend("/Stop");
-                if (Timing.waitCondition(new Condition() {
-                    @Override
-                    public boolean active() {
-                        return !needsToSayStop();
-                    }
-                }, 20000)) {
-                    General.sleep(9000, 10000);
+        if (!RSUtil.isInCC()) {
+            RSPlayer p = Player.getRSPlayer();
+            if (p != null) {
+                String name = p.getName();
+                if (name != null) {
+                    RSUtil.joinCC(name);
                 }
-            } else if (!needsToSayStop()) {
-                Keyboard.typeSend("/Start");
-                Timing.waitCondition(new Condition() {
-                    @Override
-                    public boolean active() {
-                        return needsToSayStop();
-                    }
-                }, 40000);
             }
         } else {
-            clickGauge();
+            if (gauge != null) {
+                if (needsToSayStop()) {
+                    Keyboard.typeSend("/Stop");
+                    if (Timing.waitCondition(new Condition() {
+                        @Override
+                        public boolean active() {
+                            return !needsToSayStop();
+                        }
+                    }, 20000)) {
+                        General.sleep(9000, 10000);
+                    }
+                } else if (!needsToSayStop()) {
+                    Keyboard.typeSend("/Start");
+                    Timing.waitCondition(new Condition() {
+                        @Override
+                        public boolean active() {
+                            return needsToSayStop();
+                        }
+                    }, 40000);
+                }
+            } else {
+                clickGauge();
+            }
         }
     }
 
