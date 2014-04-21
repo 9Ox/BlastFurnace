@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.tribot.api.General;
+import org.tribot.api.Timing;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
@@ -84,7 +85,7 @@ public class BlastFurnace
         g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
         g2.setColor(new Color(255, 255, 255, 220));
         g2.drawString("The swag furnace v1.0", 17, 365);
-        g2.drawString("Time running: " + getRunningTime(), 17, 380);
+        g2.drawString("Time running: " + Timing.msToString(getRunningTime()), 17, 380);
         g2.drawString("Job: " + Statics.jobName, 17, 395);
         if (Statics.jobName.contains("Cash")) {
             g2.drawString("Bars made: " + Paint.commas(Statics.barCount) + " (" + Paint.getPerHour(Statics.barCount, startTime) + ")", 17, 410);
