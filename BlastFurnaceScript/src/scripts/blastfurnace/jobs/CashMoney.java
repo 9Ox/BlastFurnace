@@ -158,9 +158,6 @@ public class CashMoney extends Job {
      * Puts ores in the furnace. Withdraws ores if none are in inventory.
      */
     private void putOresIn(final int id) {
-        if (Banking.isBankScreenOpen()) {
-            Banking.close();
-        } else {
             String[] npcOptions = NPCChat.getOptions();
             if (npcOptions != null && npcOptions.length > 0 && Arrays.asList(npcOptions).contains("Yes")) {
                 NPCChat.selectOption("Yes", true);
@@ -168,7 +165,9 @@ public class CashMoney extends Job {
                 RSObject belt = Get.getObject(CONVEYOR_BELT_TILE);
                 if (belt != null) {
                     if (belt.isOnScreen()) {
-                        if (RSUtil.clickRSObject("Put-ore-on", belt)) {
+                        if (Banking.isBankScreenOpen()) {
+                            Banking.close();
+                        } else if (RSUtil.clickRSObject("Put-ore-on", belt)) {
                             Timing.waitCondition(new Condition() {
 
                                 @Override
@@ -188,7 +187,7 @@ public class CashMoney extends Job {
                     }
                 }
             }
-        }
+        
     }
 
     /**
