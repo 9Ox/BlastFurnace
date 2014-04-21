@@ -1,6 +1,7 @@
 package scripts.blastfurnace.framework;
 
 import org.tribot.api.General;
+import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 
 import scripts.blastfurnace.BlastFurnace;
@@ -57,7 +58,13 @@ public class JobLoop {
                 }
             } else {
                 JobManager.runJobs();
+                if (General.random(0, 50) == 0) {
+                    boolean neg = General.random(0, 1) == 0;
+                    Camera.setCameraRotation(Camera.getCameraRotation() + (neg ? Camera.getCameraRotation() - General.random(10, 90) : 
+                            Camera.getCameraRotation() + General.random(10, 90)));
+                }
             }
+            General.sleep(10);
         }
     }
 
