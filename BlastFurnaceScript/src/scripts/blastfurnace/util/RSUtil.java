@@ -102,13 +102,12 @@ public class RSUtil {
         if (GameTab.TABS.CLAN.isOpen()) {
             final RSInterfaceChild button = Interfaces.get(589, 2);
             if (button != null && button.click()) {
-                Timing.waitCondition(new Condition() {
+               if(Timing.waitCondition(new Condition() {
                     @Override
                     public boolean active() {
                         return RSUtil.isEnterAmountUp();
                     }
-                }, 2500);
-                if (RSUtil.isEnterAmountUp()) {
+                }, 2500)) {
                     Keyboard.typeSend(name);
                     return Timing.waitCondition(new Condition() {
                         @Override
