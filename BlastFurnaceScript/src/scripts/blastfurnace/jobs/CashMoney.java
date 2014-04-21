@@ -8,6 +8,7 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCChat;
 import org.tribot.api2007.Player;
@@ -83,7 +84,7 @@ public class CashMoney extends Job {
      * @return the main ore amount
      */
     private int getPrimaryOreAmount() {
-        return (Game.getSetting(547) >> 24);
+        return (Game.getSetting(547) >> 16);
     }
 
     /**
@@ -137,7 +138,9 @@ public class CashMoney extends Job {
      * Deposits bars.
      */
     private void bankBars() {
-        if (!Banking.isBankScreenOpen()) {
+    	if(barType.getInterface() != null) {
+    		Interfaces.closeAll();
+    	} else if (!Banking.isBankScreenOpen()) {
             openBankChest();
         } else {
             if (Banking.depositAllExcept(Cooler.EMPTY_BUCKET_ID, Cooler.FULL_BUCKET_ID) > 0) {

@@ -46,13 +46,14 @@ public class Cooler extends Job {
         }
     }
 
+  
     /**
      * Checks if the dispesner needs to be cooled or not
      *
      * @return Returns true if it needs to be cooled; false if not.
      */
     private boolean needsToCoolBar() {
-        return (Game.getSetting(DISPENSER_SETTING_INDEX)) == 512;
+        return (Game.getSetting(DISPENSER_SETTING_INDEX)) == 512 ||  (Game.getSetting(DISPENSER_SETTING_INDEX)) == 256;
     }
 
     /**
