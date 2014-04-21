@@ -98,12 +98,12 @@ public class CashMoney extends Job implements InventoryListener {
                 putOresIn(barType.getOres()[0]);
             }
 
-        } else if (barType.requiresSeconary() && getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT) {
+        /*} else if (barType.requiresSeconary() && getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT) {
             if (Inventory.getCount(barType.getOres()[1]) == 0) {
                 getOres(barType.getOres()[1]);
             } else {
                 putOresIn(barType.getOres()[1]);
-            }
+            }*/
 
         } else if (Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1) {
             Walking.blindWalkTo(BAR_DISPENSER_TILE);
