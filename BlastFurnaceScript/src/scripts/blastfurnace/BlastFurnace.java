@@ -35,7 +35,6 @@ import scripts.blastfurnace.jobs.ShoutCaller;
 import scripts.blastfurnace.paint.Paint;
 import scripts.blastfurnace.util.Bar;
 import scripts.blastfurnace.util.Get;
-import scripts.blastfurnace.util.Observer;
 import scripts.blastfurnace.util.Statics;
 import scripts.blastfurnace.util.WorldHop;
 
@@ -54,7 +53,6 @@ public class BlastFurnace
     private boolean showPaint;
     private float opacity = 1.0f;
     private long startTime = 0;
-    private final Observer observer = new Observer();
 
     public BlastFurnace() {
         PAINT_RECT = new Rectangle(7, 345, 490, 129);
@@ -117,8 +115,6 @@ public class BlastFurnace
             } else if (input.contains("CashMoney")) {
                 Bar barType = Get.getBar(input.split(":")[1]);
                 CashMoney money = new CashMoney(barType);
-                observer.addListener(money);
-                observer.start();
                 JobManager.addJob(money);
                 Statics.jobName = "Cash Money";
             } else if (input.contains("ShoutCaller")) {
