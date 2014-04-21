@@ -54,14 +54,13 @@ public class BlastFurnace
     private boolean showPaint;
     private float opacity = 1.0f;
     private long startTime = 0;
-    private final Observer observer;
+    private final Observer observer = new Observer();
 
     public BlastFurnace() {
         PAINT_RECT = new Rectangle(7, 345, 490, 129);
         showPaint = true;
         Statics.startWorld = WorldHop.getWorld();
         startTime = System.currentTimeMillis();
-        observer = new Observer();
         JobLoop.setReady(true);
     }
 
