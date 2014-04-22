@@ -46,14 +46,15 @@ public class Trainer extends Script implements MouseSplinePainting, MessageListe
 	Smithable smithable = Smithable.BRONZE_DAGGER;
 	private final RSArea BLAST_FURNACE_AREA = new RSArea(new RSTile(1935, 4974, 0), new RSTile(1957, 4956, 0));
 	private final int HAMMER_ID = 2347;
-	private final String TRADER_NAME = "";
+	private final String TRADER_NAME = "9Ox";
 	private final RSTile LUMBRIDGE_TILE = new RSTile(3232,3230,0);
 	private final static int[] JUNK_ITEMS  = {1351,590,303,315,1925,131,2309,1265,1205,1277,1171,841,852,1931,882};
-	private final int STARTING_WORLD = -1; // take away the 3 in the world
+	private int STARTING_WORLD; // take away the 3 in the world
 	//END VARIABLE DECLARATION
 
     @Override
     public void run() {
+        STARTING_WORLD = Game.getCurrentWorld() - 300;
         Mouse.setSpeed(150);
         ThreadSettings.get().setClickingAPIUseDynamic(true);
         while (!BLAST_FURNACE_AREA.contains(Player.getPosition())) {
