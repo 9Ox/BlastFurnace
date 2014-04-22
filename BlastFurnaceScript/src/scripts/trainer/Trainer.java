@@ -4,11 +4,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import org.tribot.api.Clicking;
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
+import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCChat;
@@ -19,6 +21,7 @@ import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSArea;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
+import org.tribot.api2007.util.ThreadSettings;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.MouseSplinePainting;
@@ -37,9 +40,16 @@ public class Trainer extends Script implements MouseSplinePainting {
 
     @Override
     public void run() {
-        Mouse.setSpeed(128);
+        Mouse.setSpeed(150);
+        ThreadSettings.get().setClickingAPIUseDynamic(true);
         while (!BLAST_FURNACE_AREA.contains(Player.getPosition())) {
             if (isInVarrock() && Skills.SKILLS.SMITHING.getActualLevel() < 60) {
+                if (Camera.getCameraRotation() < 230 || Camera.getCameraRotation() > 250) {
+                    Camera.setCameraRotation(General.random(230, 250));
+                }
+                if (Camera.getCameraAngle() < 80 || Camera.getCameraAngle() > 90) {
+                    Camera.setCameraAngle(General.random(80, 90));
+                }
                 switchSmithable();
                 if (Inventory.getCount(smithable.getBarId()) < smithable.getNumBars() || Inventory.getCount(HAMMER_ID) <= 0) {
                     if (!Banking.isBankScreenOpen()) {
@@ -60,7 +70,14 @@ public class Trainer extends Script implements MouseSplinePainting {
                         }
                     } else {
                         if (!inventoryContainsOnly(HAMMER_ID, smithable.getBarId())) {
-                            Banking.depositAllExcept(HAMMER_ID, smithable.getBarId());
+                            if (Banking.depositAllExcept(HAMMER_ID, smithable.getBarId()) > 0) {
+                                Timing.waitCondition(new Condition() {
+                                    @Override
+                                    public boolean active() {
+                                        return inventoryContainsOnly(HAMMER_ID, smithable.getBarId());
+                                    }
+                                }, 1000);
+                            }
                         } else if (Inventory.getCount(HAMMER_ID) <= 0) {
                             if (Banking.withdraw(1, HAMMER_ID)) {
                                 Timing.waitCondition(new Condition() {
@@ -75,6 +92,12 @@ public class Trainer extends Script implements MouseSplinePainting {
                                 if (shouldWalk(new RSTile(3188, 3425, 0))) {
                                     Walking.blindWalkTo(new RSTile(3188, 3425, 0));
                                 }
+                                Timing.waitCondition(new Condition() {
+                                    @Override
+                                    public boolean active() {
+                                        return !Banking.isBankScreenOpen();
+                                    }
+                                }, 750);
                             }
                         }
                     }
@@ -86,7 +109,8 @@ public class Trainer extends Script implements MouseSplinePainting {
                     } else {
                         if (smithable.getComponent() == null) {
                             if (Clicking.click("Use", Inventory.find(smithable.getBarId()))) {
-                                if (Clicking.click("Anvil", Objects.find(20, "Anvil"))) {
+                                sleep(150);
+                                if (Clicking.click("Anvil", Objects.findNearest(20, "Anvil"))) {
                                     Timing.waitCondition(new Condition() {
                                         @Override
                                         public boolean active() {
@@ -143,7 +167,7 @@ public class Trainer extends Script implements MouseSplinePainting {
             return false;
         }
         final RSTile gameDest = Game.getDestination();
-        return gameDest == null || gameDest.distanceTo(dest) <= 1;
+        return gameDest == null || gameDest.distanceTo(dest) > 1;
     }
 
     /**
@@ -157,28 +181,21 @@ public class Trainer extends Script implements MouseSplinePainting {
     }
     
     private void switchSmithable() {
-        switch (Skills.SKILLS.SMITHING.getActualLevel()) {
-            case 5:
-                smithable = Smithable.BRONZE_SCIMITAR;
-                break;
-            case 9:
-                smithable = Smithable.BRONZE_WARHAMMER;
-                break;
-            case 18:
-                smithable = Smithable.BRONZE_PLATE;
-                break;
-            case 30:
-                smithable = Smithable.STEEL_DAGGER;
-                break;
-            case 35:
-                smithable = Smithable.STEEL_SCIMITAR;
-                break;
-            case 39:
-                smithable = Smithable.STEEL_WARHAMMER;
-                break;
-            case 48:
-                smithable = Smithable.STEEL_PLATE;
-                break;
+        int level = Skills.SKILLS.SMITHING.getActualLevel();
+        if (level >= 48) {
+            smithable = Smithable.STEEL_PLATE;
+        } else if (level >= 39) {
+            smithable = Smithable.STEEL_WARHAMMER;
+        } else if (level >= 35) {
+            smithable = Smithable.STEEL_SCIMITAR;
+        } else if (level >= 30) {
+            smithable = Smithable.STEEL_DAGGER;
+        } else if (level >= 18) {
+            smithable = Smithable.BRONZE_PLATE;
+        } else if (level >= 9) {
+            smithable = Smithable.BRONZE_WARHAMMER;
+        } else if (level >= 5) {
+            smithable = Smithable.BRONZE_SCIMITAR;
         }
     }
 
