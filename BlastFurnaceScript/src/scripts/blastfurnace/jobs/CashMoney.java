@@ -59,7 +59,7 @@ public class CashMoney extends Job implements InventoryListener {
     @Override
     public boolean shouldDo() {
 
-        return needsToToggleRun() || getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
+        return needsToToggleRun() || RSUtil.isInCC() || getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
                 || Inventory.getCount(barName) > 0 || Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1;
     }
 
@@ -68,8 +68,9 @@ public class CashMoney extends Job implements InventoryListener {
         if (needsToToggleRun()) {
             Options.setRunOn(true);
         }
-
-        if (getPrimaryOreAmount() == MAX_PRIMARY_AMOUNT && !cooler.shouldDo()) { // after depositong primary ores, waits for it to be cooled
+        if(RSUtil.isInCC()) {
+        	RSUtil.leaveCC();
+        } else if (getPrimaryOreAmount() == MAX_PRIMARY_AMOUNT && !cooler.shouldDo()) { // after depositong primary ores, waits for it to be cooled
             if (Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1) {
                 Walking.blindWalkTo(BAR_DISPENSER_TILE);
             }

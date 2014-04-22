@@ -24,7 +24,7 @@ public class PipeRepairer extends Job {
     @Override
     public boolean shouldDo() {
         RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
-        return pipes.length > 0;
+        return pipes.length > 0 || RSUtil.isInCC();
     }
 
     @Override
@@ -32,7 +32,10 @@ public class PipeRepairer extends Job {
     	Interfaces.closeAll();
         RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
         RSInterfaceChild gauge = Interfaces.get(30,3);
-        if (pipes.length > 0) {
+        
+        if(RSUtil.isInCC()) {
+        	RSUtil.leaveCC();
+        } else if (pipes.length > 0) {
             RSObject pipe = pipes[0];
             if (pipe != null) {
             	if(gauge != null) {

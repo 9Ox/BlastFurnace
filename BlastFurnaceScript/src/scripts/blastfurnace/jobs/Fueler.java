@@ -29,12 +29,14 @@ public class Fueler extends Job {
 
     @Override
     public boolean shouldDo() {
-        return Objects.findNearest(40, HOT_STOVE).length == 0;
+        return Objects.findNearest(40, HOT_STOVE).length == 0 || RSUtil.isInCC();
     }
 
     @Override
     public void doJob() {
-        if (Inventory.getCount(COKE_ID) > 0) {
+        if(RSUtil.isInCC()) {
+        	RSUtil.leaveCC();
+        } else if (Inventory.getCount(COKE_ID) > 0) {
             refuelStove();
         } else if (Inventory.getCount(SPADE_ID) > 0) {
             collectCoke();

@@ -29,7 +29,7 @@ public class Pedaler extends Job {
     @Override
     public boolean shouldDo() {
         RSNPC[] ores = NPCs.findNearest(ORE_NAMES);
-        return ores.length > 0 || ores.length == 0 && Player.getAnimation() == PEDALING_ANIMATION;
+        return ores.length > 0 || ores.length == 0 && Player.getAnimation() == PEDALING_ANIMATION || RSUtil.isInCC();
     }
 
     @Override
@@ -37,7 +37,9 @@ public class Pedaler extends Job {
     	Interfaces.closeAll();
         RSNPC[] ores = NPCs.findNearest(ORE_NAMES);
         int playerAniamtion = Player.getAnimation();
-        if (ores.length == 0 && playerAniamtion == PEDALING_ANIMATION) {
+        if(RSUtil.isInCC()) {
+        	RSUtil.leaveCC();
+        } else if (ores.length == 0 && playerAniamtion == PEDALING_ANIMATION) {
             Walking.walkTo(WALK_TILE);
         } else if (ores.length > 0) {
             if (playerAniamtion == PEDALING_ANIMATION) {
