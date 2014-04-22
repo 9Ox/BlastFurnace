@@ -166,7 +166,7 @@ public class Walking {
 	public static boolean walkPath(boolean screenWalk, RSTile... path) {
 		if (canWalkPath(screenWalk, path)) {
 			RSTile nextTile = getNextTile(screenWalk, path);
-			if(!PathFinding.canReach(nextTile, false))
+			if(!PathFinding.canReach(nextTile, true))
 				dealWithObstacle(nextTile);
 			else
 				return nextTile != null && screenWalk ? screenWalkTo(nextTile) : walkTo(nextTile);
