@@ -44,8 +44,8 @@ public class Trainer extends Script implements MouseSplinePainting {
         ThreadSettings.get().setClickingAPIUseDynamic(true);
         while (!BLAST_FURNACE_AREA.contains(Player.getPosition())) {
             if (isInVarrock() && Skills.SKILLS.SMITHING.getActualLevel() < 60) {
-                if (Camera.getCameraRotation() < 230 || Camera.getCameraRotation() > 250) {
-                    Camera.setCameraRotation(General.random(230, 250));
+                if (Camera.getCameraRotation() < 170 || Camera.getCameraRotation() > 185) {
+                    Camera.setCameraRotation(General.random(170, 185));
                 }
                 if (Camera.getCameraAngle() < 80 || Camera.getCameraAngle() > 90) {
                     Camera.setCameraAngle(General.random(80, 90));
