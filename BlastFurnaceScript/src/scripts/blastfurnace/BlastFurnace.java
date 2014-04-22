@@ -90,7 +90,7 @@ public class BlastFurnace
         g2.setColor(new Color(0, 0, 0, 220));
         g2.fillRect(PAINT_RECT.x, PAINT_RECT.y, PAINT_RECT.width, PAINT_RECT.height);
         g2.setColor(new Color(255, 255, 255, 220));
-        g2.drawString("The swag furnace v1.1", 17, 365);
+        g2.drawString("The swag furnace v1.2", 17, 365);
         g2.drawString("Time running: " + Timing.msToString(getRunningTime()), 17, 380);
         g2.drawString("Job: " + Statics.jobName, 17, 395);
         if (Statics.jobName.contains("Cash")) {
