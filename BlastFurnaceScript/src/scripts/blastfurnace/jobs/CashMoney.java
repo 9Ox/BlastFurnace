@@ -289,7 +289,7 @@ public class CashMoney extends Job implements InventoryListener {
                         public boolean active() {
                             return Banking.isBankScreenOpen();
                         }
-                    }, 3000);
+                    }, 6000);
                 }
             } else {
                 if (chest.getPosition().distanceTo(Player.getPosition()) <= 4) {
