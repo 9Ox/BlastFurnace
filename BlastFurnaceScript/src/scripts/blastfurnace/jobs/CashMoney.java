@@ -35,8 +35,7 @@ public class CashMoney extends Job implements InventoryListener {
     private final int STARTING_SECONDARY_AMOUNT = 27;
     private final int MAX_PRIMARY_AMOUNT = 27;
     private final int MAX_SECONDARY_AMOUNT = 200;
-    private final RSTile[] PATH_TO_FURNACE = {new RSTile(1946, 4959, 0), new RSTile(1941, 4960, 0), new RSTile(1938, 4962, 0), new RSTile(1937, 4966, 0),
-        new RSTile(1939, 4967, 0)};
+    private final RSTile[] PATH_TO_FURNACE = { new RSTile(1943, 4959, 0), new RSTile(1940, 4960, 0), new RSTile(1938, 4963, 0), new RSTile(1938, 4965, 0) };
     private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
 
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
@@ -236,6 +235,9 @@ public class CashMoney extends Job implements InventoryListener {
                         Camera.turnToTile(belt);
                     } else {
                         Walking.walkPath(false, PATH_TO_FURNACE);
+                        int rotation = Camera.getCameraRotation();
+                        if(rotation < 330 || rotation > 380)
+                        	Camera.setCameraRotation(rotation);
                         Camera.setCameraAngle(100);
                     }
                 }

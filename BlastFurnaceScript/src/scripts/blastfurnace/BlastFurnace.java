@@ -12,11 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
+import org.tribot.api2007.util.ThreadSettings;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Arguments;
 import org.tribot.script.interfaces.EventBlockingOverride;
@@ -24,6 +26,7 @@ import org.tribot.script.interfaces.MessageListening07;
 import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.MouseSplinePainting;
 import org.tribot.script.interfaces.Painting;
+
 import scripts.blastfurnace.framework.JobLoop;
 import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.jobs.CashMoney;
@@ -60,12 +63,13 @@ public class BlastFurnace
         showPaint = true;
         Statics.startWorld = WorldHop.getWorld();
         startTime = System.currentTimeMillis();
-        Mouse.setSpeed(125);
+        ThreadSettings.get().setClickingAPIUseDynamic(true);
         JobLoop.setReady(true);
     }
 
     @Override
     public void run() {
+    	Mouse.setSpeed(General.random(125, 140));
         script = this;
         if (JobManager.getJobs().size() <= 0) {
             return;

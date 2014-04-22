@@ -94,7 +94,21 @@ public class Walking {
 	}
 
 	/**
-	 * Walks to the specified tile
+	 * Walks to the specified tile using the screen
+	 *
+	 * @param tile the RSTile it will walk to
+	 * @return true if walks to the tile
+	 */
+	public static boolean screenWalkTo(RSTile tile) {
+		RSTile destination = Game.getDestination();
+		if (destination != null && destination.distanceTo(tile) <= 2) {
+			return true;
+		}
+		return org.tribot.api2007.Walking.walkScreenPath(new RSTile[] {tile});
+	}
+	
+	/**
+	 * Walks to the specified tile with the minimap
 	 *
 	 * @param tile the RSTile it will walk to
 	 * @return true if walks to the tile
@@ -155,7 +169,7 @@ public class Walking {
 			if(!PathFinding.canReach(nextTile, false))
 				dealWithObstacle(nextTile);
 			else
-				return nextTile != null && screenWalk ? org.tribot.api2007.Walking.walkScreenPath(new RSTile[] {nextTile}) : Walking.walkTo(nextTile);
+				return nextTile != null && screenWalk ? screenWalkTo(nextTile) : walkTo(nextTile);
 		} else {
 			RSTile closestTile = getClosestTile(path);
 			if (closestTile != null && Player.getPosition().distanceTo(closestTile) <= 30) {
