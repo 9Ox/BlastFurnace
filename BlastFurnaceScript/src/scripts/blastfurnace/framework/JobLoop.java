@@ -67,12 +67,12 @@ public class JobLoop {
 				}
 			} else if(!Statics.BLAST_FURNACE_AREA.contains(Player.getPosition())) {
 				boolean execute = false;
-				for(int i = 0; i < 10000; i++) {
+				for(int i = 0; i < 5000; i++) {
 					if(Statics.BLAST_FURNACE_AREA.contains(Player.getPosition()))
 						break;
 					if(i == 9)
 						execute = true;
-					General.sleep(200,300);
+					General.sleep(1);
 				}
 				if(execute) {
 					RSObject[] stairs = Objects.getAt(new RSTile(2930,10196,0));
