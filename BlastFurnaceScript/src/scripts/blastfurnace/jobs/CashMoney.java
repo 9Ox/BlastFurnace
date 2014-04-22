@@ -3,6 +3,7 @@ package scripts.blastfurnace.jobs;
 import java.util.Arrays;
 
 import org.tribot.api.Clicking;
+import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
@@ -35,7 +36,7 @@ public class CashMoney extends Job implements InventoryListener {
     private final int STARTING_SECONDARY_AMOUNT = 27;
     private final int MAX_PRIMARY_AMOUNT = 27;
     private final int MAX_SECONDARY_AMOUNT = 200;
-    private final RSTile[] PATH_TO_FURNACE = { new RSTile(1943, 4959, 0), new RSTile(1940, 4960, 0), new RSTile(1938, 4963, 0), new RSTile(1938, 4965, 0) };
+    private final RSTile[] PATH_TO_FURNACE = { new RSTile(1946,4957,0), new RSTile(1943, 4959, 0), new RSTile(1940, 4960, 0), new RSTile(1938, 4963, 0), new RSTile(1938, 4965, 0) };
     private final RSTile[] PATH_TO_BANK = org.tribot.api2007.Walking.invertPath(PATH_TO_FURNACE);
 
     private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
@@ -92,7 +93,7 @@ public class CashMoney extends Job implements InventoryListener {
             } else {
                 putOresIn();
             }
-        } else if (getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT) {
+        } else if (getPrimaryOreAmount() < MAX_PRIMARY_AMOUNT) {
             if (Inventory.getCount(barType.getOres()[0]) == 0) {
                 getOres(barType.getOres()[0]);
             } else {
@@ -237,7 +238,7 @@ public class CashMoney extends Job implements InventoryListener {
                         Walking.walkPath(false, PATH_TO_FURNACE);
                         int rotation = Camera.getCameraRotation();
                         if(rotation < 330 || rotation > 380)
-                        	Camera.setCameraRotation(rotation);
+                        	Camera.setCameraRotation(365);
                         Camera.setCameraAngle(100);
                     }
                 }
@@ -256,10 +257,12 @@ public class CashMoney extends Job implements InventoryListener {
             if (!Banking.isBankScreenOpen()) {
                 openBankChest();
             } else {
+        
                 Banking.depositAllExcept(Cooler.FULL_BUCKET_ID, Cooler.EMPTY_BUCKET_ID);
                 RSItem[] ore = Banking.find(id);
                 if (ore.length > 0) {
                     if (ore[0] != null) {
+                    
                         if (Banking.withdrawItem(ore[0], MAX_PRIMARY_AMOUNT - getPrimaryOreAmount())) {
                             Timing.waitCondition(new Condition() {
                                 @Override
