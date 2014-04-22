@@ -66,42 +66,52 @@ public class JobLoop {
 					BlastFurnace.script.setLoginBotState(true);
 				}
 			} else if(!Statics.BLAST_FURNACE_AREA.contains(Player.getPosition())) {
-				RSObject[] stairs = Objects.getAt(new RSTile(2930,10196,0));
-				if(stairs.length > 0) {
-					if(PathFinding.canReach(stairs[0], true)) {
-						if(stairs[0].isOnScreen()) {
-							if(RSUtil.clickRSObject("Climb-down", stairs))
-								Timing.waitCondition(new Condition() {
+				boolean execute = false;
+				for(int i = 0; i < 10000; i++) {
+					if(Statics.BLAST_FURNACE_AREA.contains(Player.getPosition()))
+						break;
+					if(i == 9)
+						execute = true;
+					General.sleep(200,300);
+				}
+				if(execute) {
+					RSObject[] stairs = Objects.getAt(new RSTile(2930,10196,0));
+					if(stairs.length > 0) {
+						if(PathFinding.canReach(stairs[0], true)) {
+							if(stairs[0].isOnScreen()) {
+								if(RSUtil.clickRSObject("Climb-down", stairs))
+									Timing.waitCondition(new Condition() {
 
-									@Override
-									public boolean active() {
-										// TODO Auto-generated method stub
-										return Statics.BLAST_FURNACE_AREA.contains(Player.getPosition());
-									}
-								}, 4000);
+										@Override
+										public boolean active() {
+											// TODO Auto-generated method stub
+											return Statics.BLAST_FURNACE_AREA.contains(Player.getPosition());
+										}
+									}, 4000);
 
+							} else {
+								Walking.walkTo(stairs[0].getPosition());
+								Camera.turnToTile(stairs[0].getPosition());
+							}
 						} else {
-							Walking.walkTo(stairs[0].getPosition());
-							Camera.turnToTile(stairs[0].getPosition());
+							Walking.walkPath(false, org.tribot.api2007.Walking.generateStraightPath(stairs[0]));
 						}
-					} else {
-						Walking.walkPath(false, org.tribot.api2007.Walking.generateStraightPath(stairs[0]));
-					}
-				} else if(Minigame.BLAST_FURNACE.teleport()) {
-					if(Timing.waitCondition(new Condition() {
-						@Override
-						public boolean active() {
-							// TODO Auto-generated method stub
-							return Player.getAnimation() != -1;
-						}
-					}, 4000)) {
-						Timing.waitCondition(new Condition() {
+					} else if(Minigame.BLAST_FURNACE.teleport()) {
+						if(Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
 								// TODO Auto-generated method stub
-								return  Objects.getAt(new RSTile(2930,10196,0)).length > 0;
+								return Player.getAnimation() != -1;
 							}
-						}, 30000);
+						}, 4000)) {
+							Timing.waitCondition(new Condition() {
+								@Override
+								public boolean active() {
+									// TODO Auto-generated method stub
+									return  Objects.getAt(new RSTile(2930,10196,0)).length > 0 || Statics.BLAST_FURNACE_AREA.contains(Player.getPosition());
+								}
+							}, 30000);
+						}
 					}
 				}
 			} else {
