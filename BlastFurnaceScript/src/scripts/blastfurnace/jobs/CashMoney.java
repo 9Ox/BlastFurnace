@@ -58,12 +58,12 @@ public class CashMoney extends Job implements InventoryListener {
 
     @Override
     public boolean shouldDo() {
-
+    	
         return needsToToggleRun() || RSUtil.isInCC() || getPrimaryOreAmount() != MAX_PRIMARY_AMOUNT || getSecondaryOreAmount() < MAX_SECONDARY_AMOUNT || barType.getAmountStored() > 0 || cooler.shouldDo()
                 || Inventory.getCount(barName) > 0 || Player.getPosition().distanceTo(BAR_DISPENSER_TILE) > 1;
     }
 
-    @Override
+    @Override 
     public void doJob() {
         if (needsToToggleRun()) {
             Options.setRunOn(true);

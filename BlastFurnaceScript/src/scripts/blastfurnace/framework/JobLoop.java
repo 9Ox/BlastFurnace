@@ -21,7 +21,7 @@ import scripts.blastfurnace.util.WorldHop;
  * @author Starfox
  */
 public class JobLoop {
-
+ 
 	private static boolean ready = false;
 
 	/**

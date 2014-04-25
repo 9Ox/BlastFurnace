@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
@@ -17,7 +18,9 @@ import org.tribot.api2007.types.RSInterfaceChild;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSPlayer;
 import org.tribot.api2007.types.RSTile;
+
 import scripts.blastfurnace.framework.Job;
+import scripts.blastfurnace.framework.JobManager;
 import scripts.blastfurnace.util.Get;
 import scripts.blastfurnace.util.RSUtil;
 import scripts.blastfurnace.util.Walking;
@@ -31,7 +34,7 @@ public class ShoutCaller extends Job {
     private final Tolerance SPINNER_TOLERANCE = new Tolerance(5);
     /**
      * Heated area is approximately after half of green and stops between half of red.
-     */
+     */ 
     private final int[] xPoly = {178, 209, 228, 249, 247, 246, 244};
     private final int[] yPoly = {135, 150, 157, 164, 120, 102, 86};
 

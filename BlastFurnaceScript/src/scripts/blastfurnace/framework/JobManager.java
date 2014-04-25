@@ -20,7 +20,7 @@ public class JobManager {
     public static ArrayList<Job> getJobs() {
         return jobs;
     }
-    
+     
     /**
      * Adds a Job to the JobManager.
      * @param job The Job to add.

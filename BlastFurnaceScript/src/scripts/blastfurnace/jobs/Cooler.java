@@ -30,7 +30,7 @@ public class Cooler extends Job {
 	private final RSTile SINK_TILE = new RSTile(1942, 4956, 0);
 	private final RSTile BAR_DISPENSER_TILE = new RSTile(1940, 4963, 0);
 	private final int DISPENSER_SETTING_INDEX = 543;
-
+ 
 	@Override
 	public boolean shouldDo() {
 		return needsToCoolBar() || ((Inventory.getCount(EMPTY_BUCKET_ID) <= 0 && Inventory.getCount(FULL_BUCKET_ID) <= 0)

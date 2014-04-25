@@ -26,7 +26,7 @@ public class Fueler extends Job {
     private final int HOT_STOVE = 9087;
     private final RSTile STOVE_TILE = new RSTile(1948, 4963, 0);
     private final RSTile COKE_TILE = new RSTile(1950, 4964, 0);
-
+ 
     @Override
     public boolean shouldDo() {
         return Objects.findNearest(40, HOT_STOVE).length == 0 || RSUtil.isInCC();

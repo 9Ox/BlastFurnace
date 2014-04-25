@@ -11,7 +11,7 @@ import org.tribot.api2007.types.RSInterfaceChild;
 import org.tribot.api2007.types.RSInterfaceComponent;
 
 /**
- * @author Nolan
+ * @author Nolan 
  */
 public enum Smithable {
     BRONZE_DAGGER(1, 2, 2349, 1), BRONZE_SCIMITAR(5, 4, 2349, 2), BRONZE_WARHAMMER(9, 9, 2349, 3), BRONZE_PLATE(18, 15, 2349, 5),

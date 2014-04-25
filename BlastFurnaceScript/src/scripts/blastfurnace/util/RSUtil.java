@@ -31,7 +31,7 @@ public class RSUtil {
 			return destination != null && entities[0].getPosition().distanceTo(destination) <= 0;
 		}
 		return false;
-	}
+	} 
 
 	/**
 	 * Clicks the RSNPC specified with the passed in option

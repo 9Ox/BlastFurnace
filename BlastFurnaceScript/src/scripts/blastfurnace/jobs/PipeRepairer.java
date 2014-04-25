@@ -26,7 +26,7 @@ public class PipeRepairer extends Job {
         RSObject[] pipes = Objects.findNearest(40, Filters.Objects.actionsContains(REPAIR_OPTION));
         return pipes.length > 0 || RSUtil.isInCC();
     }
-
+ 
     @Override
     public void doJob() {
     	Interfaces.closeAll();

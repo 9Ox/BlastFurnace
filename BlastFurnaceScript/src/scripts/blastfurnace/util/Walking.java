@@ -2,13 +2,18 @@ package scripts.blastfurnace.util;
 
 import java.awt.Point;
 
+import org.tribot.api.Clicking;
 import org.tribot.api.General;
+import org.tribot.api.Timing;
+import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
+import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.api2007.util.DPathNavigator;
@@ -106,7 +111,7 @@ public class Walking {
 		}
 		return org.tribot.api2007.Walking.walkScreenPath(new RSTile[] {tile});
 	}
-	
+
 	/**
 	 * Walks to the specified tile with the minimap
 	 *
@@ -134,7 +139,7 @@ public class Walking {
 		}
 		return org.tribot.api2007.Walking.blindWalkTo(tile);
 	}
-
+ 
 	/**
 	 * Gets the closest tile within the array
 	 *
@@ -166,11 +171,13 @@ public class Walking {
 	public static boolean walkPath(boolean screenWalk, RSTile... path) {
 		if (canWalkPath(screenWalk, path)) {
 			RSTile nextTile = getNextTile(screenWalk, path);
-			if(!PathFinding.canReach(nextTile, true))
+			if(!PathFinding.canReach(nextTile, true) && getObstacles(nextTile).length > 0)
 				dealWithObstacle(nextTile);
+
 			else
 				return nextTile != null && screenWalk ? screenWalkTo(nextTile) : walkTo(nextTile);
 		} else {
+
 			RSTile closestTile = getClosestTile(path);
 			if (closestTile != null && Player.getPosition().distanceTo(closestTile) <= 30) {
 				RSTile[] recoverPath = new DPathNavigator().findPath(closestTile);
@@ -182,23 +189,49 @@ public class Walking {
 		return false;
 	}
 
+
 	/**
+	 * Gets the obstacles near the specified tile
+	 * 
+	 * @param start, sorts the array by distance starting from specificed tile
+	 * @return an array of objects surrounding the specified tile
+	 */
+
+	private static RSObject[] getObstacles(RSTile start) {
+		return Objects.sortByDistance(start, Objects.findNearest(20, "Door", "Gate",
+				"Gate of War", "Rickety door", "Oozing barrier",
+				"Portal of Death", "Stairs", "Large door", "Prison door", "Wilderness ditch"));
+	}
+
+
+	/**
+	 * Handles the obstacle that is in the way of the tile
+	 * 
 	 * @param tile the specified tile that is not reachable
 	 * Deals with the obstacle near the unreachable tile
 	 */
 	private static void dealWithObstacle(RSTile tile) {
-		RSObject[] obstacles = Objects.sortByDistance(tile, Objects.findNearest(20, "Door", "Gate",
-				"Gate of War", "Rickety door", "Oozing barrier",
-				"Portal of Death", "Stairs", "Large door", "Prison door"));
-		if(obstacles.length > 0) {
+		RSObject[] obstacles = getObstacles(tile);
+		RSInterface wildernessWarning = Interfaces.get(382, 24);
+		if(wildernessWarning != null) {
+			if(wildernessWarning.click("Ok"))
+				Timing.waitCondition(new Condition() {
+
+					@Override
+					public boolean active() {
+						// TODO Auto-generated method stub
+						return Interfaces.get(382, 24) == null;
+					}
+				}, 4000);
+		} else if(obstacles.length > 0) {
 			for(RSObject o : obstacles) {
 				if(PathFinding.canReach(o, true)) {
 					if(o.isOnScreen()) {
-						if(RSUtil.clickRSObject("Open", o)) {
+						if(Clicking.click(new String[]{"Open", "Cross"}, o)) {
 							General.sleep(800);
 						}
 					} else {
-						Walking.walkTo(o.getPosition());
+						walkTo(o.getPosition());
 						Camera.turnToTile(o);
 					}
 					break;
@@ -206,5 +239,4 @@ public class Walking {
 			}
 		}
 	}
-
 }

@@ -6,7 +6,7 @@ import org.tribot.api2007.types.RSInterfaceChild;
 import org.tribot.api2007.types.RSInterfaceMaster;
 
 public class Trading {
-
+ 
 
 
 	public static RSInterfaceMaster getFirstTradeInterface() {

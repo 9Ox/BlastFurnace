@@ -26,7 +26,7 @@ public final class Observer extends Thread {
 
     public void addListener(InventoryListener listener) {
         listeners.add(listener);
-    }
+    } 
 
     @Override
     public void run() {

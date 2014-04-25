@@ -24,7 +24,7 @@ public enum Minigame {
     RAT_PITS(8, "Rat Pits"),
     SHADES_OF_MORTTON(9, "Shades of Mort'ton"),
     TROUBLE_BREWING(10, "Trouble Brewing"),
-    TZHAAR_FIGHT_PIT(11, "TzHaar Fight Pit"),
+    TZHAAR_FIGHT_PIT(11, "TzHaar Fight Pit"), 
     PHOENIX_GANG(12, "Phoenix Gang members"),
     BLACKARM_GANG(13, "Black Arm Gang members"),
     GODWARS(14, "Godwars"),

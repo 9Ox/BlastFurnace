@@ -36,7 +36,7 @@ public class WorldHop {
 
     public static boolean hasMisconfiguredWorldSettings() {
         return Screen.getColorAt(301, 9).equals(WORLD_RED_ARROW_COLOUR);
-
+ 
     }
 
     public static int getWorld() {

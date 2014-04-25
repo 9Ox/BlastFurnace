@@ -18,7 +18,7 @@ public enum Bar {
     private final int childIndex;
     private final int bits;
     private final int[] ores;
-    
+     
     Bar(final int id, final int childIndex, final int bits, int[] ores) {
         this.id = id;
     	this.childIndex = childIndex;
